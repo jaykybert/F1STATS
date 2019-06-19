@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Formula 1 Stats</title>
+</head>
+<body>
+
+
+ {% for driver in d_standings[0] %}
+    <p>{{ driver['pos'] }} {{ driver['fn'] }} {{ driver['ln'] }} {{ driver['points'] }}</p>
+ {% endfor %}
+    <p>test</p>
+
+
+</body>
+</html>
