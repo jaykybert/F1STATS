@@ -1,4 +1,9 @@
-.driver_table {
-    border: 2px solid black;
+.standings_table {
+    border: 2px solid #000;
     width: 50%;
+}
+
+.standings_table a {
+    text-decoration: none;
+    color: #000;
 }

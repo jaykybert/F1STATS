@@ -8,11 +8,12 @@ app = Flask(__name__)
 @app.route('/index')
 def index():
 
-    return render_template('index.html', d_standings=var)
+    return render_template('index.html', d_standings=d, c_standings=c)
 
 
-global var
-var = current_standings.current_driver_standings()
+global d, c
+d = current_standings.current_driver_standings()
+c = current_standings.current_constructor_standings()
 
 if __name__ == '__main__':
     app.run()

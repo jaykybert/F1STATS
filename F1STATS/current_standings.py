@@ -4,6 +4,10 @@ import json
 
 """Consider an additional information button?
 Gives number of wins, driver numbers, etc.
+
+Link URLS
+WRITE DATA AS OF ROUND X, PLACE NAME.
+SPLIT THE STANDINGS INTO THEIR OWN PAGES. ADD A HOME PAGE.
 """
 
 
@@ -11,7 +15,7 @@ def current_driver_standings():
     url = 'http://ergast.com/api/f1/current/driverStandings.json'
     response = requests.get(url)
     if not response.ok:
-        return None
+        return []
     else:
         data = json.loads(response.text)
 
@@ -27,7 +31,10 @@ def current_driver_standings():
             pos = driver['position']
             wins = driver['wins']
 
-            driver_info = {'fn': fn, 'ln': ln, 'nationality': nation, 'url': url, 'cons': cons, 'points': points, 'pos': pos, 'wins': wins}
+            driver_info = {'fn': fn, 'ln': ln, 'url': url, 'points': points,
+                           'pos': pos, 'wins': wins, 'nationality': nation,
+                           'cons': cons}
+
             driver_list.append(driver_info)
             
         standings_list.append(driver_list)
@@ -43,7 +50,7 @@ def current_constructor_standings():
 
     response = requests.get(url)
     if not response.ok:
-        return None
+        return []
     else:
         data = json.loads(response.text)
 
