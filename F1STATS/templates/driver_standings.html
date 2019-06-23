@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block page_content %}
+    {% if d_standings|length == 0 %}
+        <p>Sorry, we had trouble finding the driver standings.</p>
+    {% else %}
+        <p>Data from the {{ d_standings[1]['season'] }} season, round {{ d_standings[1]['round'] }}.</p>
+        <table class="container table table-striped standings_table">
+            <tr>
+                <th>Position</th>
+                <th>Forename</th>
+                <th>Surname</th>
+                <th>Points</th>
+            </tr>
+            {% for d in d_standings[0] %}
+                <tr>
+                    <td>{{ d['pos'] }}</td>
+                    <td><a href="{{ d['url'] }}">{{ d['fn'] }}</a></td>
+                    <td><a href="{{ d['url'] }}">{{ d['ln'] }}</a></td>
+                    <td>{{ d['points'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock page_content %}

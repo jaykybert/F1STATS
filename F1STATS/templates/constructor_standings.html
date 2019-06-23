@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block page_content %}
+    {% if c_standings|length == 0 %}
+        <p>Sorry, we had trouble finding the constructor standings.</p>
+    {% else %}
+        <p>Data from the {{ c_standings[1]['season'] }} season, round {{ c_standings[1]['round'] }}.</p>
+        <table class="container table table-striped standings_table">
+            <tr>
+                <th>Position</th>
+                <th>Constructor</th>
+                <th>Points</th>
+                <th>Wins</th>
+            </tr>
+            {% for c in c_standings[0] %}
+                <tr>
+                    <td>{{ c['pos'] }}</td>
+                    <td><a href="{{ c['url'] }}">{{ c['name'] }}</a></td>
+                    <td>{{ c['points'] }}</td>
+                    <td>{{ c['wins'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock page_content %}
