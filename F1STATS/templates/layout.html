@@ -35,14 +35,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('constructor_standings') }}">Constructor Standings</a></li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Services</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent Grand Prix</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Qualifying</a>
+                            <a class="dropdown-item" href="{{ url_for('last_race') }}">Race</a>
+                        </div>
+                    </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Team</a></li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Connect</a></li>
                 </ul>
             </div>
         </div>

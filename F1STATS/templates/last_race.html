@@ -1,25 +1,28 @@
 {% extends 'layout.html' %}
 
 {% block page_content %}
-    {% if d_standings|length == 0 %}
-        <p>Sorry, we had trouble finding the driver standings.</p>
+    {% if results|length == 0 %}
+        <p>Sorry, we had trouble finding the most recent race results.</p>
     {% else %}
-        <h1>The {{ d_standings[1]['season'] }} Formula 1 Driver's Championship</h1>
-        <p>Data from the {{ d_standings[1]['season'] }} season, round {{ d_standings[1]['round'] }}.</p>
+        <h1>{{ results[1]['race'] }}</h1>
+        <h2><a href="{{ results[1]['url'] }}">{{ results[1]['circuit'] }}</a></h2>
+        <p>{{ results[1]['date'] }} - Round {{ results[1]['round'] }}</p>
         <table class="container table table-striped standings_table">
             <tr>
                 <th>Position</th>
                 <th>Forename</th>
                 <th>Surname</th>
-                <th>Constructor</th>
+                <th>Time</th>
+                <th>Fastest Lap</th>
                 <th>Points</th>
             </tr>
-            {% for d in d_standings[0] %}
+            {% for d in results[0] %}
                 <tr>
                     <td>{{ d['pos'] }}</td>
                     <td><a href="{{ d['url'] }}">{{ d['fn'] }}</a></td>
                     <td><a href="{{ d['url'] }}">{{ d['ln'] }}</a></td>
-                    <td>{{ d['cons'] }}</td>
+                    <td>{{ d['time'] }}</td>
+                    <td>{{ d['lap'] }}</td>
                     <td>{{ d['points'] }}</td>
                 </tr>
             {% endfor %}

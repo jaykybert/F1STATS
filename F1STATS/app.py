@@ -1,5 +1,7 @@
 from flask import Flask, render_template
 import current_standings
+import last_grand_prix
+
 app = Flask(__name__)
 
 
@@ -12,17 +14,26 @@ def index():
 
 @app.route('/driver-standings')
 def driver_standings():
+    d = current_standings.current_driver_standings()
     return render_template('driver_standings.html', d_standings=d)
 
 
 @app.route('/constructor-standings')
 def constructor_standings():
+    c = current_standings.current_constructor_standings()
     return render_template('constructor_standings.html', c_standings=c)
 
 
-global d, c
-d = current_standings.current_driver_standings()
-c = current_standings.current_constructor_standings()
+@app.route('/last-race')
+@app.route('/recent-race')
+def last_race():
+    r = last_grand_prix.last_race_results()
+    return render_template('last_race.html', results=r)
+
+
+@app.errorhandler(404)
+def invalid_page(error):
+    return render_template('invalid_page.html', error=error)
 
 
 if __name__ == '__main__':

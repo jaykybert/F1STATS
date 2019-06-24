@@ -1,14 +1,5 @@
 import requests
 import json
-import pprint
-
-"""Consider an additional information button?
-Gives number of wins, driver numbers, etc.
-
-Link URLS
-WRITE DATA AS OF ROUND X, PLACE NAME.
-SPLIT THE STANDINGS INTO THEIR OWN PAGES. ADD A HOME PAGE.
-"""
 
 
 def current_driver_standings():
@@ -34,7 +25,6 @@ def current_driver_standings():
         driver_info = {'fn': fn, 'ln': ln, 'url': url, 'points': points,
                        'pos': pos, 'wins': wins, 'nationality': nation,
                        'cons': cons}
-
         driver_list.append(driver_info)
             
     standings_list.append(driver_list)
