@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+
+{% block page_content %}
+    {% if results|length == 0 %}
+        <p>Sorry, we had trouble finding the most recent qualifying results.</p>
+    {% else %}
+        <h1>{{ results[1]['race'] }}</h1>
+        <h2><a href="{{ results[1]['url'] }}">{{ results[1]['circuit'] }}</a></h2>
+        <p>{{ results[1]['date'] }} - Round {{ results[1]['round'] }}</p>
+        <table class="container table table-striped standings_table">
+            <tr>
+                <th>Position</th>
+                <th>Forename</th>
+                <th>Surname</th>
+                <th>Q1</th>
+                <th>Q2</th>
+                <th></th>
+                <th>Q3</th>
+                <th></th>
+            </tr>
+            {% for d in results[0] %}
+                <tr>
+                    <td>{{ d['pos'] }}</td>
+                    <td><a href="{{ d['url'] }}">{{ d['fn'] }}</a></td>
+                    <td><a href="{{ d['url'] }}">{{ d['ln'] }}</a></td>
+                    <td>{{ d['q1'] }}</td>
+                    <td>{{ d['q2'] }}</td>
+
+                    {% if d['q2d'] != '' %}
+                        {% if d['q2d'] >= 0 %}
+                            <td style="color: RED; font-size: 12px;">+{{ d['q2d'] }}</td>
+                        {% else %}
+                            <td style="color: GREEN; font-size: 12px;">{{ d['q2d'] }}</td>
+                        {% endif %}
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+
+                    <td>{{ d['q3'] }}</td>
+
+                    {% if d['q3d'] != '' %}
+                        {% if d['q3d'] >= 0 %}
+                            <td style="color: RED; font-size: 12px;">+{{ d['q3d'] }}</td>
+                        {% else %}
+                            <td style="color: GREEN; font-size: 12px;">{{ d['q3d'] }}</td>
+                        {% endif %}
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock page_content %}
+

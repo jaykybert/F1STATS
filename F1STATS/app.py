@@ -25,10 +25,16 @@ def constructor_standings():
 
 
 @app.route('/last-race')
-@app.route('/recent-race')
 def last_race():
     r = last_grand_prix.last_race_results()
     return render_template('last_race.html', results=r)
+
+
+@app.route('/last-qualifying')
+@app.route('/last-quali')
+def last_qualifying():
+    q = last_grand_prix.last_quali_results()
+    return render_template('last_quali.html', results=q)
 
 
 @app.errorhandler(404)
