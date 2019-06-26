@@ -4,8 +4,8 @@
     {% if c_standings|length == 0 %}
         <p>Sorry, we had trouble finding the constructor standings.</p>
     {% else %}
-        <h1>The {{ c_standings[1]['season'] }} Formula 1 Constructor's Championship</h1>
-        <p>Data from round {{ c_standings[1]['round'] }}, {{ c_standings[1]['season'] }}.</p>
+        <h1>The {{ c_standings['RoundInfo']['season'] }} Formula 1 Constructor's Championship</h1>
+        <p>Data from round {{ c_standings['RoundInfo']['round'] }}, {{ c_standings['RoundInfo']['season'] }}.</p>
         <table class="container table table-striped standings_table">
             <tr>
                 <th>Position</th>
@@ -13,7 +13,7 @@
                 <th>Points</th>
                 <th>Wins</th>
             </tr>
-            {% for c in c_standings[0] %}
+            {% for c in c_standings['Constructor'] %}
                 <tr>
                     <td>{{ c['pos'] }}</td>
                     <td><a href="{{ c['url'] }}">{{ c['name'] }}</a></td>

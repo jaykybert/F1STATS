@@ -4,9 +4,9 @@
     {% if results|length == 0 %}
         <p>Sorry, we had trouble finding the most recent qualifying results.</p>
     {% else %}
-        <h1>{{ results[1]['race'] }}</h1>
-        <h2><a href="{{ results[1]['url'] }}">{{ results[1]['circuit'] }}</a></h2>
-        <p>{{ results[1]['date'] }} - Round {{ results[1]['round'] }}</p>
+        <h1>The {{ results['RoundInfo']['race'] }}</h1>
+        <h2><a href="{{ results['RoundInfo']['url'] }}">{{ results['RoundInfo']['circuit'] }}</a></h2>
+        <p>{{ results['RoundInfo']['date'] }} - Round {{ results['RoundInfo']['round'] }}</p>
         <table class="container table table-striped standings_table">
             <tr>
                 <th>Position</th>
@@ -18,7 +18,7 @@
                 <th>Q3</th>
                 <th></th>
             </tr>
-            {% for d in results[0] %}
+            {% for d in results['Driver'] %}
                 <tr>
                     <td>{{ d['pos'] }}</td>
                     <td><a href="{{ d['url'] }}">{{ d['fn'] }}</a></td>
@@ -54,4 +54,3 @@
     {% endif %}
 
 {% endblock page_content %}
-

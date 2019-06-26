@@ -3,6 +3,10 @@ import json
 
 
 def current_driver_standings():
+    """ Get the current Formula 1 Driver Standings.
+
+    :return driver_dict: A dict containing a sorted list of drivers by points and round info.
+    """
     url = 'http://ergast.com/api/f1/current/driverStandings.json'
     response = requests.get(url)
     if not response.ok:
@@ -10,7 +14,6 @@ def current_driver_standings():
 
     data = json.loads(response.text)
 
-    standings_list = []
     driver_list = []
     for driver in data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']:
         fn = driver['Driver']['givenName']
@@ -26,16 +29,20 @@ def current_driver_standings():
                        'pos': pos, 'wins': wins, 'nationality': nation,
                        'cons': cons}
         driver_list.append(driver_info)
-            
-    standings_list.append(driver_list)
+
+    driver_dict = {'Driver': driver_list}
     round_n = data['MRData']['StandingsTable']['StandingsLists'][0]['round']
     season = data['MRData']['StandingsTable']['StandingsLists'][0]['season']
-    standings_list.append({'round': round_n, 'season': season})
-        
-    return standings_list
+    driver_dict['RoundInfo'] = {'round': round_n, 'season': season}
+
+    return driver_dict
 
 
 def current_constructor_standings():
+    """ Get the current Formula 1 Constructor Standngs
+
+    :return cons_dict: A dict containing a sorted list of constructors by points and round info.
+    """
     url = 'http://ergast.com/api/f1/current/constructorStandings.json'
 
     response = requests.get(url)
@@ -44,8 +51,7 @@ def current_constructor_standings():
 
     data = json.loads(response.text)
 
-    standings_list = []
-    con_list = []
+    cons_list = []
     for con in data['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']:
         name = con['Constructor']['name']
         nation = con['Constructor']['nationality']
@@ -56,11 +62,12 @@ def current_constructor_standings():
 
         con_info = {'name': name, 'nationality': nation, 'url': url,
                     'points': points, 'pos': pos, 'wins': wins}
-        con_list.append(con_info)
+        cons_list.append(con_info)
             
-    standings_list.append(con_list)
+    cons_dict = {'Constructor': cons_list}
+
     round_no = data['MRData']['StandingsTable']['StandingsLists'][0]['round']
     season = data['MRData']['StandingsTable']['StandingsLists'][0]['season']
-    standings_list.append({'round': round_no, 'season': season})
+    cons_dict['RoundInfo'] = {'round': round_no, 'season': season}
 
-    return standings_list
+    return cons_dict

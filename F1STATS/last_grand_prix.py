@@ -1,39 +1,53 @@
 import requests
 import json
-import datetime
-import re
+import datetime     # Date formatting.
+import re           # Extracting parts of a lap time (mins/secs/milli).
 
 
 def date_format(d):
+    """ Format the date appropriately for output.
+
+    :param d: Date - I.E. 2019-12-31
+    :return: Date - I.E. Tuesday 31 December 2019
+    """
     dt = datetime.datetime.strptime(d, '%Y-%m-%d')
     return dt.strftime('%A %d %B, %Y')
 
 
 def total_seconds(time):
-    lap_regex = re.compile(r'(\d):(\d\d).(\d\d\d)')
+    """ Get a lap time in the form of seconds.
+
+     :param time: Lap time - I.E. 1:27.809
+     :return: The lap time in seconds."""
+
+    """ I used a regular expression for this due to the (very unlikely) possibility
+     that a lap is 10 minutes or more, otherwise string slicing would work. """
+    lap_regex = re.compile(r'(\d+):(\d\d).(\d\d\d)')
+
     mo = lap_regex.search(time)
 
     mins = int(mo.group(1))
     secs = int(mo.group(2))
     milli = int(mo.group(3))
-
     mins *= 60
     milli /= 1000
-
     return mins + secs + milli
 
+
 def last_race_results():
+    """ Get relevant information for the last Formula 1 Race.
+
+    :return driver_dict: A dict containing driver results and round info.
+    """
     url = 'http://ergast.com/api/f1/current/last/results.json'
 
     response = requests.get(url)
-
     if not response.ok:
         return []
 
     data = json.loads(response.text)
 
-    results_list = []
-    race_list = []
+    driver_list = []
     for driver in data['MRData']['RaceTable']['Races'][0]['Results']:
         fn = driver['Driver']['givenName']
         ln = driver['Driver']['familyName']
@@ -46,39 +60,41 @@ def last_race_results():
             time = driver['Time']['time']
         except KeyError:  # Times are only given for un-lapped drivers.
             time = driver['status']  # Make time the number of laps behind.
+
         best_lap = driver['FastestLap']['Time']['time']
 
-        race_info = {'fn': fn, 'ln': ln, 'url': url, 'cons': cons,
-                     'points': points, 'pos': pos, 'time': time, 'lap': best_lap}
-        race_list.append(race_info)
-    results_list.append(race_list)
+        driver_race_info = {'fn': fn, 'ln': ln, 'url': url, 'cons': cons,
+                            'points': points, 'pos': pos, 'time': time, 'lap': best_lap}
+        driver_list.append(driver_race_info)
+
+    driver_dict = {'Driver': driver_list}
 
     round_n = data['MRData']['RaceTable']['Races'][0]['round']
     season = data['MRData']['RaceTable']['Races'][0]['season']
-    date = date_format(data['MRData']['RaceTable']['Races'][0]['date'])
+    date = date_format(data['MRData']['RaceTable']['Races'][0]['date'])  # Format date.
     race = data['MRData']['RaceTable']['Races'][0]['raceName']
     circuit = data['MRData']['RaceTable']['Races'][0]['Circuit']['circuitName']
     circuit_url = data['MRData']['RaceTable']['Races'][0]['Circuit']['url']
 
-    circuit_info = {'race': race, 'circuit': circuit, 'url': circuit_url,
-                    'round': round_n, 'season': season, 'date': date}
-    results_list.append(circuit_info)
-
-    return results_list
+    driver_dict['RoundInfo'] = {'race': race, 'circuit': circuit, 'url:': circuit_url,
+                                'round': round_n, 'season': season, 'date': date}
+    return driver_dict
 
 
 def last_quali_results():
+    """ Get relevant information for the last Formula 1 Qualifying.
+
+    :return driver_dict: A dict containing driver results and round info.
+    """
     url = 'http://ergast.com/api/f1/current/last/qualifying.json'
 
     response = requests.get(url)
-
     if not response.ok:
         return []
 
     data = json.loads(response.text)
 
-    results_list = []
-    quali_list = []
+    driver_list = []
     for driver in data['MRData']['RaceTable']['Races'][0]['QualifyingResults']:
         fn = driver['Driver']['givenName']
         ln = driver['Driver']['familyName']
@@ -89,22 +105,22 @@ def last_quali_results():
         except KeyError:
             q1 = ''
         try:
-            q2 = driver['Q2']  # Drivers eliminated.
+            q2 = driver['Q2']  # Drivers eliminated in Q1 wont be in Q2.
         except KeyError:
             q2 = ''
         try:
-            q3 = driver['Q3']  # Drivers further eliminated.
+            q3 = driver['Q3']  # Drivers eliminated in Q2 wont be in Q3.
         except KeyError:
             q3 = ''
 
-        #  Faster Q2 means negative delta for Q1 delta.
+        # Find the delta between qualifying sessions (Q3 - Q2, Q2 - Q1).
         if q3 is not '':
             q3_time = total_seconds(q3)
             q2_time = total_seconds(q2)
             q1_time = total_seconds(q1)
 
-            q2_delta = round(q2_time - q1_time, 3)
             q3_delta = round(q3_time - q2_time, 3)
+            q2_delta = round(q2_time - q1_time, 3)
 
         elif q2 is not '':
             q2_time = total_seconds(q2)
@@ -116,20 +132,20 @@ def last_quali_results():
             q2_delta = ''
             q3_delta = ''
 
-        quali_info = {'fn': fn, 'ln': ln, 'url': url, 'pos': pos, 'q1': q1,
+        driver_quali_info = {'fn': fn, 'ln': ln, 'url': url, 'pos': pos, 'q1': q1,
                       'q2': q2, 'q3': q3, 'q2d': q2_delta, 'q3d': q3_delta}
-        quali_list.append(quali_info)
-    results_list.append(quali_list)
+        driver_list.append(driver_quali_info)
+
+    driver_dict = {'Driver': driver_list}
 
     round_n = data['MRData']['RaceTable']['Races'][0]['round']
     season = data['MRData']['RaceTable']['Races'][0]['season']
-    date = date_format(data['MRData']['RaceTable']['Races'][0]['date'])
+    date = date_format(data['MRData']['RaceTable']['Races'][0]['date'])  # Format date.
     race = data['MRData']['RaceTable']['Races'][0]['raceName']
     circuit = data['MRData']['RaceTable']['Races'][0]['Circuit']['circuitName']
     circuit_url = data['MRData']['RaceTable']['Races'][0]['Circuit']['url']
 
-    circuit_info = {'race': race, 'circuit': circuit, 'url': circuit_url,
+    driver_dict['RoundInfo'] = {'race': race, 'circuit': circuit, 'url': circuit_url,
                     'round': round_n, 'season': season, 'date': date}
-    results_list.append(circuit_info)
 
-    return results_list
+    return driver_dict

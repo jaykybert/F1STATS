@@ -27,6 +27,9 @@ def constructor_standings():
 @app.route('/last-race')
 def last_race():
     r = last_grand_prix.last_race_results()
+
+    #fastest_lap = max(r, key=lambda k: r[k]['Driver']['lap'])
+    #print(fastest_lap)
     return render_template('last_race.html', results=r)
 
 
