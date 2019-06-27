@@ -27,22 +27,32 @@ def constructor_standings():
 @app.route('/last-race')
 def last_race():
     r = last_grand_prix.last_race_results()
-
-    #fastest_lap = max(r, key=lambda k: r[k]['Driver']['lap'])
-    #print(fastest_lap)
-    return render_template('last_race.html', results=r)
+    f_lap = fastest_lap(r)
+    return render_template('last_race.html', results=r, f_lap=f_lap)
 
 
 @app.route('/last-qualifying')
 @app.route('/last-quali')
 def last_qualifying():
     q = last_grand_prix.last_quali_results()
+
     return render_template('last_quali.html', results=q)
 
 
 @app.errorhandler(404)
 def invalid_page(error):
     return render_template('invalid_page.html', error=error)
+
+
+def fastest_lap(race_results):
+    best_lap = 10000  # Placeholder.
+    for lap in race_results['Driver']:
+        lap_time = lap['bestLap']['secs']
+
+        if lap_time < best_lap:
+            best_lap = lap_time
+
+    return best_lap
 
 
 if __name__ == '__main__':

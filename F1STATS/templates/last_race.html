@@ -22,7 +22,13 @@
                     <td><a href="{{ d['url'] }}">{{ d['fn'] }}</a></td>
                     <td><a href="{{ d['url'] }}">{{ d['ln'] }}</a></td>
                     <td>{{ d['time'] }}</td>
-                    <td>{{ d['lap'] }}</td>
+
+                    {% if d['bestLap']['secs'] == f_lap %}
+                        <td style="color: #9530D3">{{ d['bestLap']['text'] }}</td>
+                    {% else %}
+                        <td>{{ d['bestLap']['text'] }}</td>
+                    {% endif %}
+
                     <td>{{ d['points'] }}</td>
                 </tr>
             {% endfor %}

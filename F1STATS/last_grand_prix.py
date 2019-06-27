@@ -2,6 +2,7 @@ import requests
 import json
 import datetime     # Date formatting.
 import re           # Extracting parts of a lap time (mins/secs/milli).
+import pprint
 
 
 def date_format(d):
@@ -59,12 +60,13 @@ def last_race_results():
         try:
             time = driver['Time']['time']
         except KeyError:  # Times are only given for un-lapped drivers.
-            time = driver['status']  # Make time the number of laps behind.
+            time = driver['status']  # Make time the number of laps behind or retired.
 
         best_lap = driver['FastestLap']['Time']['time']
+        best_lap_secs = total_seconds(best_lap)
 
         driver_race_info = {'fn': fn, 'ln': ln, 'url': url, 'cons': cons,
-                            'points': points, 'pos': pos, 'time': time, 'lap': best_lap}
+                            'points': points, 'pos': pos, 'time': time, 'bestLap': {'text': best_lap, 'secs': best_lap_secs}}
         driver_list.append(driver_race_info)
 
     driver_dict = {'Driver': driver_list}
@@ -94,6 +96,7 @@ def last_quali_results():
 
     data = json.loads(response.text)
 
+    pprint.pprint(data)
     driver_list = []
     for driver in data['MRData']['RaceTable']['Races'][0]['QualifyingResults']:
         fn = driver['Driver']['givenName']
@@ -101,15 +104,21 @@ def last_quali_results():
         url = driver['Driver']['url']
         pos = driver['position']
         try:
-            q1 = driver['Q1']  # Drivers may not partake in Q1.
+            q1_text = driver['Q1']  # Drivers may not partake in Q1.
+            q1_secs = total_seconds(q1_text)
+
         except KeyError:
             q1 = ''
+
         try:
-            q2 = driver['Q2']  # Drivers eliminated in Q1 wont be in Q2.
+            q2_text = driver['Q2']  # Drivers eliminated in Q1 wont be in Q2.
+            q2_secs = total_seconds(q2_text)
         except KeyError:
             q2 = ''
+
         try:
-            q3 = driver['Q3']  # Drivers eliminated in Q2 wont be in Q3.
+            q3_text = driver['Q3']  # Drivers eliminated in Q2 wont be in Q3.
+            q3_secs = total_seconds(q3_text)
         except KeyError:
             q3 = ''
 
@@ -132,8 +141,8 @@ def last_quali_results():
             q2_delta = ''
             q3_delta = ''
 
-        driver_quali_info = {'fn': fn, 'ln': ln, 'url': url, 'pos': pos, 'q1': q1,
-                      'q2': q2, 'q3': q3, 'q2d': q2_delta, 'q3d': q3_delta}
+        driver_quali_info = {'fn': fn, 'ln': ln, 'url': url, 'pos': pos, 'q1': {'text': q1_text, 'secs': q1_text},
+                      'q2': {'text': q2_text, 'secs': q2_secs} , 'q3': {'text': q3_text, 'secs': q3_secs}, 'q2d': q2_delta, 'q3d': q3_delta}
         driver_list.append(driver_quali_info)
 
     driver_dict = {'Driver': driver_list}

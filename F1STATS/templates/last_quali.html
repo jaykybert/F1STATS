@@ -23,8 +23,8 @@
                     <td>{{ d['pos'] }}</td>
                     <td><a href="{{ d['url'] }}">{{ d['fn'] }}</a></td>
                     <td><a href="{{ d['url'] }}">{{ d['ln'] }}</a></td>
-                    <td>{{ d['q1'] }}</td>
-                    <td>{{ d['q2'] }}</td>
+                    <td>{{ d['q1']['text'] }}</td>
+                    <td>{{ d['q2']['text'] }}</td>
 
                     {% if d['q2d'] != '' %}
                         {% if d['q2d'] >= 0 %}
@@ -36,7 +36,7 @@
                         <td></td>
                     {% endif %}
 
-                    <td>{{ d['q3'] }}</td>
+                    <td>{{ d['q3']['text'] }}</td>
 
                     {% if d['q3d'] != '' %}
                         {% if d['q3d'] >= 0 %}
