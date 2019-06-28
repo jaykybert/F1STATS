@@ -1,12 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block page_content %}
-    {% if d_standings|length == 0 %}
-        <p>Sorry, we had trouble finding the driver standings.</p>
-    {% else %}
-        <h1>The {{ d_standings['RoundInfo']['season'] }} Formula 1 Driver's Championship</h1>
-        <p>Data from the {{ d_standings['RoundInfo']['season'] }} season, round {{ d_standings['RoundInfo']['round'] }}.</p>
-        <table class="container table table-striped standings_table">
+    <div class="page_header">
+        {% if d_standings|length == 0 %}
+            <p>Sorry, we had trouble finding the driver standings.</p>
+        {% else %}
+            <h1 class="display-4">The {{ d_standings['RoundInfo']['season'] }} Formula 1 Driver's Championship</h1>
+            <p style="font-style: oblique;">Data correct as of round {{ d_standings['RoundInfo']['round'] }}, {{ d_standings['RoundInfo']['season'] }}.</p>
+    </div>
+        <table class="container table table-striped border f1_table">
             <tr>
                 <th>Position</th>
                 <th>Forename</th>

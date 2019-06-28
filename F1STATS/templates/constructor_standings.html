@@ -1,12 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block page_content %}
-    {% if c_standings|length == 0 %}
-        <p>Sorry, we had trouble finding the constructor standings.</p>
-    {% else %}
-        <h1>The {{ c_standings['RoundInfo']['season'] }} Formula 1 Constructor's Championship</h1>
-        <p>Data from round {{ c_standings['RoundInfo']['round'] }}, {{ c_standings['RoundInfo']['season'] }}.</p>
-        <table class="container table table-striped standings_table">
+    <div class="page_header">
+        {% if c_standings|length == 0 %}
+            <p>Sorry, we had trouble finding the constructor standings.</p>
+        {% else %}
+            <h1 class="display-4">The {{ c_standings['RoundInfo']['season'] }} Formula 1 Constructor's Championship</h1>
+            <p style="font-style: oblique;">Data correct as of round {{ c_standings['RoundInfo']['round'] }}, {{ c_standings['RoundInfo']['season'] }}.</p>
+    </div>
+        <table class="container table table-striped f1_table">
             <tr>
                 <th>Position</th>
                 <th>Constructor</th>
@@ -16,7 +18,7 @@
             {% for c in c_standings['Constructor'] %}
                 <tr>
                     <td>{{ c['pos'] }}</td>
-                    <td><a href="{{ c['url'] }}">{{ c['name'] }}</a></td>
+                    <td class="url_link"><a href="{{ c['url'] }}">{{ c['name'] }}</a></td>
                     <td>{{ c['points'] }}</td>
                     <td>{{ c['wins'] }}</td>
                 </tr>

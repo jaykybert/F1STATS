@@ -1,13 +1,15 @@
 {% extends 'layout.html' %}
 
 {% block page_content %}
-    {% if results|length == 0 %}
-        <p>Sorry, we had trouble finding the most recent qualifying results.</p>
-    {% else %}
-        <h1>The {{ results['RoundInfo']['race'] }}</h1>
-        <h2><a href="{{ results['RoundInfo']['url'] }}">{{ results['RoundInfo']['circuit'] }}</a></h2>
-        <p>{{ results['RoundInfo']['date'] }} - Round {{ results['RoundInfo']['round'] }}</p>
-        <table class="container table table-striped standings_table">
+    <div class="page_header f1_table">
+        {% if results|length == 0 %}
+            <p>Sorry, we had trouble finding the most recent qualifying results.</p>
+        {% else %}
+            <h1 class="display-4">The {{ results['RoundInfo']['race'] }} - Qualifying</h1>
+            <h2><a href="{{ results['RoundInfo']['url'] }}">{{ results['RoundInfo']['circuit'] }}</a></h2>
+            <p>{{ results['RoundInfo']['date'] }} - Round {{ results['RoundInfo']['round'] }}</p>
+    </div>
+        <table class="container table table-striped f1_table">
             <tr>
                 <th>Position</th>
                 <th>Forename</th>
@@ -28,7 +30,7 @@
 
                     {% if d['q2d'] != '' %}
                         {% if d['q2d'] >= 0 %}
-                            <td style="color: RED; font-size: 12px;">+{{ d['q2d'] }}</td>
+                            <td style="color: RED; font-size: 12px;" >+{{ d['q2d'] }}</td>
                         {% else %}
                             <td style="color: GREEN; font-size: 12px;">{{ d['q2d'] }}</td>
                         {% endif %}

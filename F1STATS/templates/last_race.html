@@ -1,13 +1,15 @@
 {% extends 'layout.html' %}
 
 {% block page_content %}
-    {% if results|length == 0 %}
-        <p>Sorry, we had trouble finding the most recent race results.</p>
-    {% else %}
-        <h1>The {{ results['RoundInfo']['race'] }}</h1>
-        <h2><a href="{{ results['RoundInfo']['url'] }}">{{ results['RoundInfo']['circuit'] }}</a></h2>
-        <p>{{ results['RoundInfo']['date'] }} - Round {{ results['RoundInfo']['round'] }}</p>
-        <table class="container table table-striped standings_table">
+    <div class="page_header f1_table">
+        {% if results|length == 0 %}
+            <p>Sorry, we had trouble finding the most recent race results.</p>
+        {% else %}
+            <h1 class="display-4">The {{ results['RoundInfo']['race'] }} - Race</h1>
+            <h2><a href="{{ results['RoundInfo']['url'] }}">{{ results['RoundInfo']['circuit'] }}</a></h2>
+            <p>{{ results['RoundInfo']['date'] }} - Round {{ results['RoundInfo']['round'] }}</p>
+     </div>
+        <table class="container table table-striped f1_table">
             <tr>
                 <th>Position</th>
                 <th>Forename</th>
@@ -22,13 +24,7 @@
                     <td><a href="{{ d['url'] }}">{{ d['fn'] }}</a></td>
                     <td><a href="{{ d['url'] }}">{{ d['ln'] }}</a></td>
                     <td>{{ d['time'] }}</td>
-
-                    {% if d['bestLap']['secs'] == f_lap %}
-                        <td style="color: #9530D3">{{ d['bestLap']['text'] }}</td>
-                    {% else %}
-                        <td>{{ d['bestLap']['text'] }}</td>
-                    {% endif %}
-
+                    <td>{{ d['bestLap']['text'] }}</td>
                     <td>{{ d['points'] }}</td>
                 </tr>
             {% endfor %}

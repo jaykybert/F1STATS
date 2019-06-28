@@ -103,46 +103,48 @@ def last_quali_results():
         ln = driver['Driver']['familyName']
         url = driver['Driver']['url']
         pos = driver['position']
+
         try:
             q1_text = driver['Q1']  # Drivers may not partake in Q1.
             q1_secs = total_seconds(q1_text)
-
         except KeyError:
-            q1 = ''
+            q1_text = ''
 
         try:
             q2_text = driver['Q2']  # Drivers eliminated in Q1 wont be in Q2.
             q2_secs = total_seconds(q2_text)
         except KeyError:
-            q2 = ''
+            q2_text = ''
 
         try:
             q3_text = driver['Q3']  # Drivers eliminated in Q2 wont be in Q3.
             q3_secs = total_seconds(q3_text)
         except KeyError:
-            q3 = ''
+            q3_text = ''
 
         # Find the delta between qualifying sessions (Q3 - Q2, Q2 - Q1).
-        if q3 is not '':
-            q3_time = total_seconds(q3)
-            q2_time = total_seconds(q2)
-            q1_time = total_seconds(q1)
 
-            q3_delta = round(q3_time - q2_time, 3)
-            q2_delta = round(q2_time - q1_time, 3)
+        if q3_text is not '':
+            q3_secs = total_seconds(q3_text)
+            q2_secs = total_seconds(q2_text)
+            q1_secs = total_seconds(q1_text)
 
-        elif q2 is not '':
-            q2_time = total_seconds(q2)
-            q1_time = total_seconds(q1)
+            q3_delta = round(q3_secs - q2_secs, 3)
+            q2_delta = round(q2_secs - q1_secs, 3)
+
+        elif q2_text is not '':
+            q2_secs = total_seconds(q2_text)
+            q1_secs = total_seconds(q1_text)
             q3_delta = ''
-            q2_delta = round(q2_time - q1_time, 3)
+            q2_delta = round(q2_secs - q1_secs, 3)
 
         else:
             q2_delta = ''
             q3_delta = ''
 
-        driver_quali_info = {'fn': fn, 'ln': ln, 'url': url, 'pos': pos, 'q1': {'text': q1_text, 'secs': q1_text},
-                      'q2': {'text': q2_text, 'secs': q2_secs} , 'q3': {'text': q3_text, 'secs': q3_secs}, 'q2d': q2_delta, 'q3d': q3_delta}
+        # q_sec variables are only used to find fastest lap.
+        driver_quali_info = {'fn': fn, 'ln': ln, 'url': url, 'pos': pos, 'q1': {'text': q1_text, 'secs': q1_secs},
+                             'q2': {'text': q2_text, 'secs': q2_secs} , 'q3': {'text': q3_text, 'secs': q3_secs}, 'q2d': q2_delta, 'q3d': q3_delta}
         driver_list.append(driver_quali_info)
 
     driver_dict = {'Driver': driver_list}
