@@ -3,11 +3,24 @@
 
 {% block page_content %}
 
-    <h2 class="display-4 text-center">Formula 1 Statistics</h2>
+    <div class="page_header">
+        <h2 class="display-4 text-center">Formula 1 Statistics</h2>
+        <p>Using the navigation bar above, you can view the current driver and constructor standings, as well as the results
+        for the last qualifying and race!</p>
+        <h3>Next Race</h3>
+    </div>
 
+    <div class="card" style="width: 20rem; margin: auto;">
+        <div class="card-body f1_table">
+            <h4 class="card-title"><a href="{{ race['url'] }}">{{ race['race'] }}</a></h4>
+            <h6 class="card-subtitle mb-2 text-muted"> - {{ race['locality'] }}</h6>
+            <p class="card-text">{{ race['circuit'] }} <br /> {{ race['date'] }}</p>
 
-    <p>Using the navigation bar above, you can view the current driver and constructor standings, as well as the results
-    for the last qualifying and race!</p>
+        </div>
+        <div class="card-footer text-muted">
+            <p class="text-center">Round {{ race['round'] }}, {{ race['season'] }}.</p>
+        </div>
+    </div>
 
 
 {% endblock page_content %}
