@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 import current_standings
 import last_grand_prix
+import next_grand_prix
 
 app = Flask(__name__)
 
@@ -9,7 +10,8 @@ app = Flask(__name__)
 @app.route('/home')
 @app.route('/index')
 def index():
-    return render_template('index.html')
+    r = next_grand_prix.next_race_info()
+    return render_template('index.html', race=r)
 
 
 @app.route('/driver-standings')

@@ -1,38 +1,6 @@
 import requests
 import json
-import datetime     # Date formatting.
-import re           # Extracting parts of a lap time (mins/secs/milli).
-import pprint
-
-
-def date_format(d):
-    """ Format the date appropriately for output.
-
-    :param d: Date - I.E. 2019-12-31
-    :return: Date - I.E. Tuesday 31 December 2019
-    """
-    dt = datetime.datetime.strptime(d, '%Y-%m-%d')
-    return dt.strftime('%A %d %B, %Y')
-
-
-def total_seconds(time):
-    """ Get a lap time in the form of seconds.
-
-     :param time: Lap time - I.E. 1:27.809
-     :return: The lap time in seconds."""
-
-    """ I used a regular expression for this due to the (very unlikely) possibility
-     that a lap is 10 minutes or more, otherwise string slicing would work. """
-    lap_regex = re.compile(r'(\d+):(\d\d).(\d\d\d)')
-
-    mo = lap_regex.search(time)
-
-    mins = int(mo.group(1))
-    secs = int(mo.group(2))
-    milli = int(mo.group(3))
-    mins *= 60
-    milli /= 1000
-    return mins + secs + milli
+from utils import *  # total_seconds and date_format functions.
 
 
 def last_race_results():
@@ -96,7 +64,6 @@ def last_quali_results():
 
     data = json.loads(response.text)
 
-    pprint.pprint(data)
     driver_list = []
     for driver in data['MRData']['RaceTable']['Races'][0]['QualifyingResults']:
         fn = driver['Driver']['givenName']
