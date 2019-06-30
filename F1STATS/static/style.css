@@ -1,15 +1,9 @@
 
-.f1_table a {
+.f1_links a {
     text-decoration: none;
     color: #000;
 }
 
-
-.f1_table a:hover {
+.f1_links a:hover {
     text-decoration: underline;
 }
-
-.page_header {
-    text-align: center;
-}
-

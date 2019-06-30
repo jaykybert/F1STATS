@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block page_content %}
-    <div class="page_header f1_table">
+    <div class="text-center f1_links">
         {% if results|length == 0 %}
             <p>Sorry, we had trouble finding the most recent qualifying results.</p>
         {% else %}
@@ -9,7 +9,7 @@
             <h2><a href="{{ results['RoundInfo']['url'] }}">{{ results['RoundInfo']['circuit'] }}</a></h2>
             <p>{{ results['RoundInfo']['date'] }} - Round {{ results['RoundInfo']['round'] }}</p>
     </div>
-        <table class="container table table-striped f1_table">
+        <table class="container table table-striped f1_links">
             <tr>
                 <th>Position</th>
                 <th>Forename</th>
