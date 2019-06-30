@@ -5,11 +5,28 @@ import re
 def date_format(d):
     """ Format the date appropriately for output.
 
-    :param d: Date - I.E. 2019-12-31
-    :return: Date - I.E. Tuesday 31 December 2019
+    :param d: String Date - I.E. 2019-12-31
+    :return: String Date - I.E. Tuesday 31 December, 2019
     """
     dt = datetime.datetime.strptime(d, '%Y-%m-%d')
     return dt.strftime('%A %d %B, %Y')
+
+
+def return_datetime(d):
+    """ Return the datetime object of the passed date.
+
+    :param d: String Date - I.E 2019-12-31
+    :return: Datetime Date in the same format.
+    """
+    return datetime.datetime.strptime(d, '%Y-%m-%d')
+
+
+def current_date():
+    """ Return the current date (and time).
+
+    :return: Current datetime object.
+    """
+    return datetime.datetime.now()
 
 
 def total_seconds(time):
@@ -29,4 +46,5 @@ def total_seconds(time):
     milli = int(mo.group(3))
     mins *= 60
     milli /= 1000
+
     return mins + secs + milli
