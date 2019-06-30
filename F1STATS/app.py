@@ -1,7 +1,10 @@
 from flask import Flask, render_template
+# API Requests.
 import current_standings
 import last_grand_prix
-import next_grand_prix
+import season
+# Get today's date.
+import utils
 
 app = Flask(__name__)
 
@@ -10,8 +13,9 @@ app = Flask(__name__)
 @app.route('/home')
 @app.route('/index')
 def index():
-    r = next_grand_prix.next_race_info()
-    return render_template('index.html', race=r)
+    race_list = season.race_calendar()
+    date_today = utils.current_date()
+    return render_template('index.html', races=race_list, today=date_today)
 
 
 @app.route('/driver-standings')

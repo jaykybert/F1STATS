@@ -30,9 +30,12 @@ def last_race_results():
         except KeyError:  # Times are only given for un-lapped drivers.
             time = driver['status']  # Make time the number of laps behind or retired.
 
-        best_lap = driver['FastestLap']['Time']['time']
-        best_lap_secs = total_seconds(best_lap)
-
+        try:
+            best_lap = driver['FastestLap']['Time']['time']
+            best_lap_secs = total_seconds(best_lap)
+        except KeyError:
+            best_lap = '-'
+            best_lap_secs = -1
         driver_race_info = {'fn': fn, 'ln': ln, 'url': url, 'cons': cons,
                             'points': points, 'pos': pos, 'time': time, 'bestLap': {'text': best_lap, 'secs': best_lap_secs}}
         driver_list.append(driver_race_info)
@@ -127,3 +130,5 @@ def last_quali_results():
                     'round': round_n, 'season': season, 'date': date}
 
     return driver_dict
+
+
