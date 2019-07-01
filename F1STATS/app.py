@@ -1,7 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 # API Requests.
 import current_standings
-import last_grand_prix
+import grand_prix
 import season
 # Get today's date.
 import utils
@@ -30,18 +30,19 @@ def constructor_standings():
     return render_template('constructor_standings.html', c_standings=c)
 
 
-@app.route('/last-race')
-def last_race():
-    r = last_grand_prix.last_race_results()
-    return render_template('last_race.html', results=r)
+@app.route('/race')
+def race():
+    round_n = request.args.get('round_n')
+    r = grand_prix.race_results(round_n)
+    return render_template('race.html', results=r)
 
 
-@app.route('/last-qualifying')
-@app.route('/last-quali')
-def last_qualifying():
-    q = last_grand_prix.last_quali_results()
+@app.route('/qualifying')
+@app.route('/quali')
+def qualifying():
+    q = grand_prix.last_quali_results()
 
-    return render_template('last_quali.html', results=q)
+    return render_template('quali.html', results=q)
 
 
 @app.errorhandler(404)

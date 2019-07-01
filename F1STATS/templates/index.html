@@ -3,35 +3,42 @@
 
 {% block page_content %}
 
-    <div class="page_header">
-        <h2 class="display-4 text-center">Formula 1 Statistics</h2>
-        <p>Using the navigation bar above, you can view the current driver and constructor standings, as well as the results
-        for the last qualifying and race!</p>
-    </div>
-
-    {% for r in races %}
-
-        <div class="card" style="width: 20rem; margin: auto; float: left; padding: 5px;">
-            <div class="card-header">
-                <h4 class="card-title">{{ r['race'] }}</h4>
-                <h6 class="card-subtitle mb-2 text-muted"> - {{ r['locality'] }}</h6>
-            </div>
-
-            <div class="card-body f1_links">
-                <p class="card-text"><a href="{{ r['url'] }}">{{ r['circuit'] }}</a> <br /> {{ r['date']['text'] }}</p>
-            </div>
-
-            {% if r['date']['datetime'] < today %}
-                <div class="card-footer text-muted bg-dark" style="height:3rem;">
-                <p class="text-center">Round {{ r['round'] }}</p>
-                </div>
-            {% else %}
-                <div class="card-footer text-muted bg-success" style="height:3rem;">
-                    <p class="text-center">Round {{ r['round'] }}</p>
-                </div>
-            {% endif %}
+    <div class="container">
+        <div class="page_header text-center">
+            <h2 class="display-4">Formula 1 Statistics</h2>
+            <p>Using the navigation bar above, you can view the current driver and constructor standings, as well as the results
+            for the last qualifying and race!</p>
         </div>
-    {% endfor %}
+
+        {% for r in races %}
+            {% if r['date']['datetime'] < today %}
+                <div class="card f1_links border-danger" style="width: 20rem; margin: 10px; float: left; padding: 3px;">
+            {% else %}
+                <div class="card f1_links border-success" style="width: 20rem; margin: 10px; float: left; padding: 3px;">
+            {% endif %}
+                <a href="{{ url_for('race') }}?round_n={{ r['round'] }}">
+                    <div class="card-header">
+                        <h4 class="card-title">{{ r['race'] }}</h4>
+                        <h6 class="card-subtitle mb-2 text-muted"> - {{ r['locality'] }}</h6>
+                    </div>
+                </a>
+
+                <div class="card-body f1_links">
+                    <p class="card-text">{{ r['circuit'] }}<br />{{ r['date']['text'] }}</p>
+                </div>
+
+                <div class="card-footer text-muted" style="height:3rem;">
+                    {% if r['date']['datetime'] < today %}
+                        <p class="text-center">Round {{ r['round'] }} - Finished</p>
+                    {% else %}
+                        <p class="text-center">Round {{ r['round'] }} - Upcoming</p>
+                    {% endif %}
+                </div>
+             </div>
+        {% endfor %}
+
+
+    </div>
 
 
 {% endblock page_content %}

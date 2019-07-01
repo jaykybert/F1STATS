@@ -3,18 +3,27 @@ import json
 from utils import *  # total_seconds and date_format functions.
 
 
-def race_results():
-    """ Get relevant information for the last Formula 1 Race.
+def race_results(round_n=None):
+    """ Get relevant information for a current-year Formula 1 race. If no
+    round number is passed, the most-recent race data is provided.
 
+    :param round_n: Round number for the race.
     :return driver_dict: A dict containing driver results and round info.
     """
-    url = 'http://ergast.com/api/f1/current/last/results.json'
+
+    if round_n is None:
+        url = 'http://ergast.com/api/f1/current/last/results.json'
+    else:
+        url = 'http://ergast.com/api/f1/current/{}/results.json'.format(round_n)
 
     response = requests.get(url)
     if not response.ok:
         return []
 
     data = json.loads(response.text)
+
+    if not data['MRData']['RaceTable']['Races']:
+        return []
 
     driver_list = []
     for driver in data['MRData']['RaceTable']['Races'][0]['Results']:
