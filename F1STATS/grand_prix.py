@@ -3,7 +3,7 @@ import json
 from utils import *  # total_seconds and date_format functions.
 
 
-def last_race_results():
+def race_results():
     """ Get relevant information for the last Formula 1 Race.
 
     :return driver_dict: A dict containing driver results and round info.
