@@ -1,44 +1,48 @@
 {% extends 'layout.html' %}
 
-
 {% block page_content %}
 
     <div class="container">
         <div class="page_header text-center">
             <h2 class="display-4">Formula 1 Statistics</h2>
-            <p>Using the navigation bar above, you can view the current driver and constructor standings, as well as the results
-            for the last qualifying and race!</p>
+            <p>Below, you can view the qualifying and race results for past race weekends of {{ races['year'] }}. You can use the navigation
+            bar at the top to view the driver and constructor standings, as well as the results of the most recent
+            grand prix.</p>
         </div>
 
-        {% for r in races %}
+        {% for r in races['Races'] %}
+
+            <!-- Border colour depends on if the race has occurred yet. -->
             {% if r['date']['datetime'] < today %}
-                <div class="card f1_links border-danger" style="width: 20rem; margin: 10px; float: left; padding: 3px;">
-            {% else %}
                 <div class="card f1_links border-success" style="width: 20rem; margin: 10px; float: left; padding: 3px;">
+            {% else %}
+                <div class="card f1_links border-danger" style="width: 20rem; margin: 10px; float: left; padding: 3px;">
             {% endif %}
-                <a href="{{ url_for('race') }}?round_n={{ r['round'] }}">
+
                     <div class="card-header">
                         <h4 class="card-title">{{ r['race'] }}</h4>
                         <h6 class="card-subtitle mb-2 text-muted"> - {{ r['locality'] }}</h6>
                     </div>
-                </a>
 
-                <div class="card-body f1_links">
-                    <p class="card-text">{{ r['circuit'] }}<br />{{ r['date']['text'] }}</p>
-                </div>
+                    <div class="card-body f1_links">
+                        <p class="card-text"><a href="{{ r['url'] }}">{{ r['circuit'] }}</a><br />{{ r['date']['text'] }}</p>
+                        <!-- Display links to results if the race has happened. -->
+                        {% if r['date']['datetime'] < today %}
+                            <p class="card-text">
+                                <a href="{{ url_for('qualifying') }}?round_n={{ r['round'] }}">View Qualifying Results</a> <br />
+                                <a href="{{ url_for('race') }}?round_n={{ r['round'] }}">View Race Results</a></p>
+                        {% endif %}
+                    </div>
 
-                <div class="card-footer text-muted" style="height:3rem;">
-                    {% if r['date']['datetime'] < today %}
-                        <p class="text-center">Round {{ r['round'] }} - Finished</p>
-                    {% else %}
-                        <p class="text-center">Round {{ r['round'] }} - Upcoming</p>
-                    {% endif %}
+                    <div class="card-footer text-muted" style="height:3rem;">
+                        {% if r['date']['datetime'] < today %}
+                            <p class="text-center">Round {{ r['round'] }} - Finished</p>
+                        {% else %}
+                            <p class="text-center">Round {{ r['round'] }} - Upcoming</p>
+                        {% endif %}
+                    </div>
                 </div>
-             </div>
         {% endfor %}
-
-
     </div>
-
 
 {% endblock page_content %}

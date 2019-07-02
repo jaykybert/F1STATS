@@ -8,6 +8,8 @@
             <h1 class="display-4">The {{ results['RoundInfo']['race'] }} - Qualifying</h1>
             <h2><a href="{{ results['RoundInfo']['url'] }}">{{ results['RoundInfo']['circuit'] }}</a></h2>
             <p>{{ results['RoundInfo']['date'] }} - Round {{ results['RoundInfo']['round'] }}</p>
+            <p>Each qualifying lap time is given below, as well as the delta between runs Q1 - Q2, and Q2 - Q3.
+            A green delta means the driver improved over their previous qualifying session lap. A red time denotes a slower lap.</p>
     </div>
         <table class="container table table-striped f1_links">
             <tr>
@@ -53,6 +55,6 @@
                 </tr>
             {% endfor %}
         </table>
-    {% endif %}
+        {% endif %}
 
 {% endblock page_content %}

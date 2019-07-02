@@ -10,7 +10,6 @@ def race_results(round_n=None):
     :param round_n: Round number for the race.
     :return driver_dict: A dict containing driver results and round info.
     """
-
     if round_n is None:
         url = 'http://ergast.com/api/f1/current/last/results.json'
     else:
@@ -22,6 +21,7 @@ def race_results(round_n=None):
 
     data = json.loads(response.text)
 
+    # If the race has not happened yet.
     if not data['MRData']['RaceTable']['Races']:
         return []
 
@@ -63,18 +63,27 @@ def race_results(round_n=None):
     return driver_dict
 
 
-def last_quali_results():
-    """ Get relevant information for the last Formula 1 Qualifying.
+def qualifying_results(round_n=None):
+    """ Get relevant information for a current-year Formula 1 qualifying
+    session. If no round number is passed, the most-recent qualifying data is provided.
 
+    :param round_n: Round number for the qualifying session..
     :return driver_dict: A dict containing driver results and round info.
     """
-    url = 'http://ergast.com/api/f1/current/last/qualifying.json'
+    if round_n is None:
+        url = 'http://ergast.com/api/f1/current/last/qualifying.json'
+    else:
+        url = 'http://ergast.com/api/f1/current/{}/qualifying.json'.format(round_n)
 
     response = requests.get(url)
     if not response.ok:
         return []
 
     data = json.loads(response.text)
+
+    # If the race has not happened yet.
+    if not data['MRData']['RaceTable']['Races']:
+        return []
 
     driver_list = []
     for driver in data['MRData']['RaceTable']['Races'][0]['QualifyingResults']:
@@ -102,7 +111,6 @@ def last_quali_results():
             q3_text = ''
 
         # Find the delta between qualifying sessions (Q3 - Q2, Q2 - Q1).
-
         if q3_text is not '':
             q3_secs = total_seconds(q3_text)
             q2_secs = total_seconds(q2_text)
@@ -123,7 +131,7 @@ def last_quali_results():
 
         # q_sec variables are only used to find fastest lap.
         driver_quali_info = {'fn': fn, 'ln': ln, 'url': url, 'pos': pos, 'q1': {'text': q1_text, 'secs': q1_secs},
-                             'q2': {'text': q2_text, 'secs': q2_secs} , 'q3': {'text': q3_text, 'secs': q3_secs}, 'q2d': q2_delta, 'q3d': q3_delta}
+                             'q2': {'text': q2_text, 'secs': q2_secs}, 'q3': {'text': q3_text, 'secs': q3_secs}, 'q2d': q2_delta, 'q3d': q3_delta}
         driver_list.append(driver_quali_info)
 
     driver_dict = {'Driver': driver_list}

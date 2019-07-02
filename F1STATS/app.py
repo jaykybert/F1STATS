@@ -40,9 +40,9 @@ def race():
 @app.route('/qualifying')
 @app.route('/quali')
 def qualifying():
-    q = grand_prix.last_quali_results()
-
-    return render_template('quali.html', results=q)
+    round_n = request.args.get('round_n')
+    q = grand_prix.qualifying_results(round_n)
+    return render_template('qualifying.html', results=q)
 
 
 @app.errorhandler(404)
