@@ -11,14 +11,12 @@
         </div>
 
         {% for r in races['Races'] %}
-
             <!-- Border colour depends on if the race has occurred yet. -->
             {% if r['date']['datetime'] < today %}
                 <div class="card f1_links border-success" style="width: 20rem; margin: 10px; float: left; padding: 3px;">
             {% else %}
                 <div class="card f1_links border-danger" style="width: 20rem; margin: 10px; float: left; padding: 3px;">
             {% endif %}
-
                     <div class="card-header">
                         <h4 class="card-title">{{ r['race'] }}</h4>
                         <h6 class="card-subtitle mb-2 text-muted"> - {{ r['locality'] }}</h6>

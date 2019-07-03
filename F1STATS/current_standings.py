@@ -39,7 +39,7 @@ def current_driver_standings():
 
 
 def current_constructor_standings():
-    """ Get the current Formula 1 Constructor Standngs
+    """ Get the current Formula 1 Constructor Standings
 
     :return cons_dict: A dict containing a sorted list of constructors by points and round info.
     """

@@ -8,7 +8,7 @@
             <h1 class="display-4">The {{ results['RoundInfo']['race'] }} - Qualifying</h1>
             <h2><a href="{{ results['RoundInfo']['url'] }}">{{ results['RoundInfo']['circuit'] }}</a></h2>
             <p>{{ results['RoundInfo']['date'] }} - Round {{ results['RoundInfo']['round'] }}</p>
-            <p>Each qualifying lap time is given below, as well as the delta between runs Q1 - Q2, and Q2 - Q3.
+            <p>Each qualifying lap time is given below, as well as the delta between runs Q1 - Q2, and Q2 - Q3.<br />
             A green delta means the driver improved over their previous qualifying session lap. A red time denotes a slower lap.</p>
     </div>
         <table class="container table table-striped f1_links">
@@ -30,6 +30,7 @@
                     <td>{{ d['q1']['text'] }}</td>
                     <td>{{ d['q2']['text'] }}</td>
 
+                    <!-- Show Q2 - Q1 delta if available -->
                     {% if d['q2d'] != '' %}
                         {% if d['q2d'] >= 0 %}
                             <td style="color: RED; font-size: 12px;" >+{{ d['q2d'] }}</td>
@@ -42,6 +43,7 @@
 
                     <td>{{ d['q3']['text'] }}</td>
 
+                    <!-- Show Q3 - Q2 delta if available -->
                     {% if d['q3d'] != '' %}
                         {% if d['q3d'] >= 0 %}
                             <td style="color: RED; font-size: 12px;">+{{ d['q3d'] }}</td>
@@ -51,7 +53,6 @@
                     {% else %}
                         <td></td>
                     {% endif %}
-
                 </tr>
             {% endfor %}
         </table>

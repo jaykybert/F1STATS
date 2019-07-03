@@ -15,6 +15,7 @@ def race_calendar():
         return []
 
     data = json.loads(response.text)
+
     race_dict = {'year': data['MRData']['RaceTable']['season']}
     race_list = []
     for race in data['MRData']['RaceTable']['Races']:
@@ -35,6 +36,3 @@ def race_calendar():
     race_dict['Races'] = race_list
 
     return race_dict
-
-
-
