@@ -3,11 +3,12 @@
 {% block page_content %}
     <div class="text-center f1_links">
         {% if results|length == 0 %}
-            <p>Sorry, we had trouble finding the most recent race results.</p>
+            <p>Sorry, we had trouble finding the requested race results.</p>
         {% else %}
             <h1 class="display-4">The {{ results['RoundInfo']['race'] }} - Race</h1>
             <h2><a href="{{ results['RoundInfo']['url'] }}">{{ results['RoundInfo']['circuit'] }}</a></h2>
             <p>{{ results['RoundInfo']['date'] }} - Round {{ results['RoundInfo']['round'] }}</p>
+            <p>An extra point is awarded to the driver in the top 10 with the fastest lap.</p>
      </div>
         <table class="container table table-striped f1_links">
             <tr>
@@ -24,7 +25,14 @@
                     <td><a href="{{ d['url'] }}">{{ d['fn'] }}</a></td>
                     <td><a href="{{ d['url'] }}">{{ d['ln'] }}</a></td>
                     <td>{{ d['time'] }}</td>
-                    <td>{{ d['bestLap']['text'] }}</td>
+                    <!-- Show fastest lap as purple -->
+                    {% if d['bestLap']['secs'] == f_lap %}
+                        <td style="color:mediumpurple; font-weight:bold;">
+                    {% else %}
+                        <td>
+                    {% endif %}
+                        {{ d['bestLap']['text'] }}
+                        </td>
                     <td>{{ d['points'] }}</td>
                 </tr>
             {% endfor %}

@@ -34,7 +34,13 @@ def constructor_standings():
 def race():
     round_n = request.args.get('round_n')
     r = grand_prix.race_results(round_n)
-    return render_template('race.html', results=r)
+    # Only find fastest lap for races that have happened.
+    if len(r) > 0:
+        f_lap = utils.fastest_lap(r)
+    else:
+        f_lap = ''
+
+    return render_template('race.html', results=r, f_lap=f_lap)
 
 
 @app.route('/qualifying')

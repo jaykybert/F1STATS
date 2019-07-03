@@ -48,3 +48,21 @@ def total_seconds(time):
     milli /= 1000
 
     return mins + secs + milli
+
+
+def fastest_lap(driver_dict):
+    """ Find the fastest lap.
+
+    :param driver_dict: The dict from the race API request.
+    :return f_lap: The fastest lap in seconds.
+    """
+
+    # Placeholder fastest lap.
+    f_lap = driver_dict['Driver'][0]['bestLap']['secs']
+
+    for driver in driver_dict['Driver']:
+
+        if driver['bestLap']['secs'] < f_lap:
+            f_lap = driver['bestLap']['secs']
+
+    return f_lap
