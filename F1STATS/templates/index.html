@@ -29,6 +29,10 @@
                             <p class="card-text">
                                 <a href="{{ url_for('qualifying') }}?round_n={{ r['round'] }}">View Qualifying Results</a> <br />
                                 <a href="{{ url_for('race') }}?round_n={{ r['round'] }}">View Race Results</a></p>
+                        {% else %}
+                            <p class="card-text">
+                                Qualifying Results Unavailable <br />
+                                Race Results Unavailable </p>
                         {% endif %}
                     </div>
 
