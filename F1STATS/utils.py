@@ -40,29 +40,11 @@ def total_seconds(time):
     lap_regex = re.compile(r'(\d+):(\d\d).(\d\d\d)')
 
     mo = lap_regex.search(time)
+    if mo is not None:
+        mins = int(mo.group(1))
+        secs = int(mo.group(2))
+        milli = int(mo.group(3))
+        mins *= 60
+        milli /= 1000
 
-    mins = int(mo.group(1))
-    secs = int(mo.group(2))
-    milli = int(mo.group(3))
-    mins *= 60
-    milli /= 1000
-
-    return mins + secs + milli
-
-
-def fastest_lap(driver_dict):
-    """ Find the fastest lap.
-
-    :param driver_dict: The dict from the race API request.
-    :return f_lap: The fastest lap in seconds.
-    """
-
-    # Placeholder fastest lap.
-    f_lap = driver_dict['Driver'][0]['bestLap']['secs']
-
-    for driver in driver_dict['Driver']:
-
-        if driver['bestLap']['secs'] < f_lap:
-            f_lap = driver['bestLap']['secs']
-
-    return f_lap
+        return mins + secs + milli

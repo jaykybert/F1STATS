@@ -42,12 +42,12 @@ def race_results(round_n=None):
 
             try:
                 best_lap = driver['FastestLap']['Time']['time']
-                best_lap_secs = total_seconds(best_lap)
+                rank = driver['FastestLap']['rank']
             except KeyError:
                 best_lap = '-'
-                best_lap_secs = -1
+                rank = None
             driver_race_info = {'fn': fn, 'ln': ln, 'url': url, 'cons': cons,
-                                'points': points, 'pos': pos, 'time': time, 'bestLap': {'text': best_lap, 'secs': best_lap_secs}}
+                                'points': points, 'pos': pos, 'time': time, 'bestLap': {'text': best_lap, 'rank': rank}}
             driver_list.append(driver_race_info)
 
         driver_dict = {'Driver': driver_list}
@@ -97,6 +97,8 @@ def qualifying_results(round_n=None):
             url = driver['Driver']['url']
             pos = driver['position']
 
+            """ The qualifying responses can be empty strings
+            as well as simply not existing as keys. I.E. Q1 = '' """
             try:
                 q1_text = driver['Q1']  # Drivers may not partake in Q1.
                 q1_secs = total_seconds(q1_text)
@@ -104,13 +106,13 @@ def qualifying_results(round_n=None):
                 q1_text = ''
 
             try:
-                q2_text = driver['Q2']  # Drivers eliminated in Q1 wont be in Q2.
+                q2_text = driver['Q2']  # Drivers eliminated in Q1 won't be in Q2.
                 q2_secs = total_seconds(q2_text)
             except KeyError:
                 q2_text = ''
 
             try:
-                q3_text = driver['Q3']  # Drivers eliminated in Q2 wont be in Q3.
+                q3_text = driver['Q3']  # Drivers eliminated in Q2 won't be in Q3.
                 q3_secs = total_seconds(q3_text)
             except KeyError:
                 q3_text = ''

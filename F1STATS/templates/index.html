@@ -5,9 +5,13 @@
     <div class="container">
         <div class="page_header text-center">
             <h2 class="display-4">Formula 1 Statistics</h2>
-            <p>Below, you can view the qualifying and race results for past race weekends of {{ races['year'] }}. You can use the navigation
-            bar at the top to view the driver and constructor standings, as well as the results of the most recent
-            grand prix.</p>
+            {% if races|length == 0 %}
+                <p>Sorry, we tried requesting the information but got no response!</p>
+            {% else %}
+                <p>Below, you can view the qualifying and race results for past race weekends of {{ races['year'] }}. You can use the navigation
+                bar at the top to view the driver and constructor standings, as well as the results of the most recent
+                grand prix.</p>
+            {% endif %}
         </div>
 
         {% for r in races['Races'] %}

@@ -26,7 +26,7 @@
                     <td><a href="{{ d['url'] }}">{{ d['ln'] }}</a></td>
                     <td>{{ d['time'] }}</td>
                     <!-- Show fastest lap as purple -->
-                    {% if d['bestLap']['secs'] == f_lap %}
+                    {% if d['bestLap']['rank'] == '1' %}
                         <td style="color:mediumpurple; font-weight:bold;">
                     {% else %}
                         <td>
