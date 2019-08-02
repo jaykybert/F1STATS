@@ -5,6 +5,8 @@ import grand_prix
 import season
 # Get today's date.
 import utils
+# Testing new features.
+import test
 
 app = Flask(__name__)
 
@@ -43,6 +45,14 @@ def qualifying():
     round_n = request.args.get('round_n')
     q = grand_prix.qualifying_results(round_n)
     return render_template('qualifying.html', results=q)
+
+
+@app.route('/test')
+def test():
+
+    round_n = request.args.get('round_n')
+    q = test.qualifying_results()
+    return render_template('test.html', results=q)
 
 
 @app.errorhandler(404)
