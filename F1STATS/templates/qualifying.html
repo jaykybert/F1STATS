@@ -3,7 +3,7 @@
 {% block page_content %}
     <div class="text-center f1_links">
         {% if results|length == 0 %}
-            <p>Sorry, we had trouble finding the most recent qualifying results.</p>
+            <p>Sorry, we had trouble finding the requested qualifying results.</p>
         {% else %}
             <h1 class="display-4">The {{ results['RoundInfo']['race'] }} - Qualifying</h1>
             <h2><a href="{{ results['RoundInfo']['url'] }}">{{ results['RoundInfo']['circuit'] }}</a></h2>

@@ -3,12 +3,19 @@ import json
 import utils
 
 
-def race_calendar():
+def race_calendar(year=None):
     """ Get information on the current Formula 1 calendar.
 
     :return race_list: A list of the races this F1 season.
     """
-    url = 'http://ergast.com/api/f1/current.json'
+    # If year is None or invalid, request current standings.
+    try:
+        year = int(year)
+        url = 'http://ergast.com/api/f1/{}.json'.format(year)
+    except ValueError:
+        url = 'http://ergast.com/api/f1/current.json'
+    except TypeError:
+        url = 'http://ergast.com/api/f1/current.json'
 
     response = requests.get(url)
     if not response.ok:

@@ -13,7 +13,8 @@ app = Flask(__name__)
 @app.route('/home')
 @app.route('/index')
 def index():
-    race_list = season.race_calendar()
+    yr = request.args.get('year')
+    race_list = season.race_calendar(yr)
     date_today = utils.current_date()
     return render_template('index.html', races=race_list, today=date_today)
 
@@ -33,7 +34,8 @@ def constructor_standings():
 @app.route('/race')
 def race():
     round_n = request.args.get('round_n')
-    r = grand_prix.race_results(round_n)
+    year = request.args.get('season')
+    r = grand_prix.race_results(round_n, year)
     return render_template('race.html', results=r)
 
 
@@ -41,7 +43,8 @@ def race():
 @app.route('/quali')
 def qualifying():
     round_n = request.args.get('round_n')
-    q = grand_prix.qualifying_results(round_n)
+    year = request.args.get('season')
+    q = grand_prix.qualifying_results(round_n, year)
     return render_template('qualifying.html', results=q)
 
 

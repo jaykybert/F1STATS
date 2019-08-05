@@ -5,6 +5,12 @@
         <div class="page_header">
             <h2 class="display-4">Historical Race Results</h2>
             <p>Enter the year of the results you wish to see.</p>
+
+            <form action="{{ url_for('index') }}">
+                <label>Year
+                    <input type="text" name="year"/>
+                </label>
+            </form>
         </div>
 
     </div>
