@@ -3,7 +3,10 @@
 {% block page_content %}
     <div class="text-center f1_links">
         {% if results|length == 0 %}
-            <p>Sorry, we had trouble finding the requested race results.</p>
+            <div class="alert alert-danger" role="alert">
+                 Sorry, we had trouble finding the requested race results.
+            </div>
+
         {% else %}
             <h1 class="display-4">The {{ results['RoundInfo']['race'] }} - Race</h1>
             <h2><a href="{{ results['RoundInfo']['url'] }}">{{ results['RoundInfo']['circuit'] }}</a></h2>

@@ -3,7 +3,10 @@
 {% block page_content %}
     <div class="page_header text-center">
         {% if c_standings|length == 0 %}
-            <p>Sorry, we had trouble finding the constructor standings.</p>
+            <div class="alert alert-danger" role="alert">
+                Sorry, we had trouble finding the constructor standings.
+             </div>
+
         {% else %}
             <h1 class="display-4">The {{ c_standings['RoundInfo']['season'] }} Formula 1 Constructor's Championship</h1>
             <p style="font-style: oblique;">Data correct as of round {{ c_standings['RoundInfo']['round'] }}, {{ c_standings['RoundInfo']['season'] }}.</p>

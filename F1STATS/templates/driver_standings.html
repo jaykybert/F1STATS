@@ -3,7 +3,9 @@
 {% block page_content %}
     <div class="page_header text-center">
         {% if d_standings|length == 0 %}
-            <p>Sorry, we had trouble finding the driver standings.</p>
+             <div class="alert alert-danger" role="alert">
+                Sorry, we had trouble finding the driver standings.
+             </div>
         {% else %}
             <h1 class="display-4">The {{ d_standings['RoundInfo']['season'] }} Formula 1 Driver's Championship</h1>
             <p style="font-style: oblique;">Data correct as of round {{ d_standings['RoundInfo']['round'] }}, {{ d_standings['RoundInfo']['season'] }}.</p>
