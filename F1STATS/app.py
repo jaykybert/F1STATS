@@ -13,10 +13,7 @@ app = Flask(__name__)
 @app.route('/home')
 @app.route('/index')
 def index():
-    yr = request.args.get('year')
-    race_list = season.race_calendar(yr)
-    date_today = utils.current_date()
-    return render_template('index.html', races=race_list, today=date_today)
+    return render_template('index.html')
 
 
 @app.route('/driver-standings')
@@ -48,9 +45,12 @@ def qualifying():
     return render_template('qualifying.html', results=q)
 
 
-@app.route('/year-select')
-def year_select():
-    return render_template('year_select.html')
+@app.route('/calender')
+def calender():
+    yr = request.args.get('year')
+    race_list = season.race_calendar(yr)
+    date_today = utils.current_date()
+    return render_template('race_calender.html', races=race_list, today=date_today)
 
 
 @app.errorhandler(404)
