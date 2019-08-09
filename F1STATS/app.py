@@ -18,13 +18,15 @@ def index():
 
 @app.route('/driver-standings')
 def driver_standings():
-    d = current_standings.current_driver_standings()
+    year = request.args.get('season')
+    d = current_standings.current_driver_standings(year)
     return render_template('driver_standings.html', d_standings=d)
 
 
 @app.route('/constructor-standings')
 def constructor_standings():
-    c = current_standings.current_constructor_standings()
+    year = request.args.get('season')
+    c = current_standings.current_constructor_standings(year)
     return render_template('constructor_standings.html', c_standings=c)
 
 
@@ -60,3 +62,9 @@ def invalid_page(error):
 
 if __name__ == '__main__':
     app.run()
+
+""" Consider getting the year, and making it a global variable which is passed to all API requests.
+
+Since the navbar on the calender page isn't inherited, you cannot move from one standings page
+to another and still pass the year (it uses a different navbar altogether).
+"""

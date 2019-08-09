@@ -2,12 +2,15 @@ import requests
 import json
 
 
-def current_driver_standings():
+def current_driver_standings(season=None):
     """ Get the current Formula 1 Driver Standings.
 
     :return driver_dict: A dict containing a sorted list of drivers by points and round info.
     """
-    url = 'http://ergast.com/api/f1/current/driverStandings.json'
+    if season is None:
+        url = 'http://ergast.com/api/f1/current/driverStandings.json'
+    else:
+        url = 'http://ergast.com/api/f1/{}/driverStandings.json'.format(season)
     response = requests.get(url)
     if not response.ok:
         return []
@@ -42,12 +45,15 @@ def current_driver_standings():
         return []
 
 
-def current_constructor_standings():
+def current_constructor_standings(season=None):
     """ Get the current Formula 1 Constructor Standings
 
     :return cons_dict: A dict containing a sorted list of constructors by points and round info.
     """
-    url = 'http://ergast.com/api/f1/current/constructorStandings.json'
+    if season is None:
+        url = 'http://ergast.com/api/f1/current/constructorStandings.json'
+    else:
+        url = 'http://ergast.com/api/f1/{}/constructorStandings.json'.format(season)
 
     response = requests.get(url)
     if not response.ok:
