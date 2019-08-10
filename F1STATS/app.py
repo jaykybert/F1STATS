@@ -16,17 +16,24 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/calender')
+def calender():
+    global yr
+    yr = request.args.get('year')
+    race_list = season.race_calendar(yr)
+    date_today = utils.current_date()
+    return render_template('calender.html', races=race_list, today=date_today)
+
+
 @app.route('/driver-standings')
 def driver_standings():
-    year = request.args.get('season')
-    d = current_standings.current_driver_standings(year)
+    d = current_standings.current_driver_standings(yr)
     return render_template('driver_standings.html', d_standings=d)
 
 
 @app.route('/constructor-standings')
 def constructor_standings():
-    year = request.args.get('season')
-    c = current_standings.current_constructor_standings(year)
+    c = current_standings.current_constructor_standings(yr)
     return render_template('constructor_standings.html', c_standings=c)
 
 
@@ -47,14 +54,6 @@ def qualifying():
     return render_template('qualifying.html', results=q)
 
 
-@app.route('/calender')
-def calender():
-    yr = request.args.get('year')
-    race_list = season.race_calendar(yr)
-    date_today = utils.current_date()
-    return render_template('race_calender.html', races=race_list, today=date_today)
-
-
 @app.errorhandler(404)
 def invalid_page(error):
     return render_template('invalid_page.html', error=error)
@@ -63,8 +62,8 @@ def invalid_page(error):
 if __name__ == '__main__':
     app.run()
 
-""" Consider getting the year, and making it a global variable which is passed to all API requests.
-
-Since the navbar on the calender page isn't inherited, you cannot move from one standings page
-to another and still pass the year (it uses a different navbar altogether).
+""" Consider:
+Ask for user input.
+Create stand-alone function that uses requests.arg.get('year') (or whatever)
+Call this function inside each app.route function.
 """
