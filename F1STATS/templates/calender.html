@@ -3,7 +3,7 @@
 {% block page_content %}
     <div class="container">
         <div class="page_header text-center">
-            <h2 class="display-4">Formula 1 Statistics</h2>
+            <h2 class="display-4">The {{ races['year'] }} Calender</h2>
             {% if races|length == 0 %}
                 <div class="alert alert-danger" role="alert">
                     Sorry, we tried requesting the information but got no response!
