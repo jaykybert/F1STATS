@@ -1,8 +1,6 @@
 import requests
 import json
 
-import pprint
-
 
 def current_driver_standings(season=None):
     """ Get the current Formula 1 Driver Standings.
@@ -13,7 +11,7 @@ def current_driver_standings(season=None):
         url = 'http://ergast.com/api/f1/current/driverStandings.json'
     else:
         url = 'http://ergast.com/api/f1/{}/driverStandings.json'.format(season)
-        print(url)
+
     response = requests.get(url)
     if not response.ok:
         return []
@@ -48,7 +46,6 @@ def current_driver_standings(season=None):
         return driver_dict
 
     except ValueError:
-        print("value error")
         return []
 
 
