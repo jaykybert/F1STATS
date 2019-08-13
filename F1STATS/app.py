@@ -66,4 +66,7 @@ if __name__ == '__main__':
 Ask for user input.
 Create stand-alone function that uses requests.arg.get('year') (or whatever)
 Call this function inside each app.route function.
+
+Note: You can't start on the standings webpages since yr is not defined
+(you need to go through calender first).
 """
