@@ -26,18 +26,12 @@
 
             <div class="collapse navbar-collapse" id="navbarResponsive">
 
-                <a class="navbar-brand" href="{{ url_for('index') }}">Home</a>
+                <form class="form-inline" action="{{ url_for('calender') }}">
+                    <input class="form-control mr-sm-2" type="text" name="year" placeholder="F1 Season">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
 
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent Grand Prix</a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="{{ url_for('qualifying') }}">Qualifying Results</a>
-                            <a class="dropdown-item" href="{{ url_for('race') }}">Race Results</a>
-                        </div>
-                    </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('calender') }}">Calender</a></li>
 
