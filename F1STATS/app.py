@@ -14,6 +14,7 @@ app = Flask(__name__)
 @app.route('/calender')
 def index():
     yr = request.args.get('year')
+    print(yr)
     race_list = season.race_calendar(yr)
     date_today = utils.current_date()
     return render_template('calender.html', races=race_list, today=date_today)
@@ -22,13 +23,16 @@ def index():
 @app.route('/driver-standings')
 def driver_standings():
     yr = request.args.get('year')
+    print(yr)
     d = current_standings.current_driver_standings(yr)
     return render_template('driver_standings.html', d_standings=d)
 
 
 @app.route('/constructor-standings')
 def constructor_standings():
+
     yr = request.args.get('year')
+    print(yr)
     c = current_standings.current_constructor_standings(yr)
     return render_template('constructor_standings.html', c_standings=c)
 
@@ -36,8 +40,8 @@ def constructor_standings():
 @app.route('/race')
 def race():
     round_n = request.args.get('round_n')
-    year = request.args.get('season')
-    r = grand_prix.race_results(round_n, year)
+    yr = request.args.get('year')
+    r = grand_prix.race_results(round_n, yr)
     return render_template('race.html', results=r)
 
 
@@ -57,12 +61,3 @@ def invalid_page(error):
 
 if __name__ == '__main__':
     app.run()
-
-""" Consider:
-Ask for user input.
-Create stand-alone function that uses requests.arg.get('year') (or whatever)
-Call this function inside each app.route function.
-
-Note: You can't start on the standings webpages since yr is not defined
-(you need to go through calender first).
-"""

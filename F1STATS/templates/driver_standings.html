@@ -17,17 +17,26 @@
 
                 <ul class="navbar-nav ml-auto">
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('index') }}
-                            {% if d_standings|length > 0 %}?year={{ d_standings['RoundInfo']['season'] }}{% endif %}">Calender</a></li>
+                    {% if d_standings|length == 0 %}  <!-- Unsuccessful API request. Cannot pass on the year selected. -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('index') }}">Calender</a></li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('driver_standings') }}
-                            {% if d_standings|length > 0 %}?year={{ d_standings['RoundInfo']['season'] }}{% endif %}">Driver Standings</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('driver_standings') }}">Driver Standings</a></li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('constructor_standings') }}
-                            {% if d_standings|length > 0 %}?year={{ d_standings['RoundInfo']['season'] }}{% endif %}">Constructor Standings</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('constructor_standings') }}">Constructor Standings</a></li>
+
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('index') }}?year={{ d_standings['RoundInfo']['season'] }}">Calender</a></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('driver_standings') }}?year={{ d_standings['RoundInfo']['season'] }}">Driver Standings</a></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('constructor_standings') }}?year={{ d_standings['RoundInfo']['season'] }}">Constructor Standings</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
