@@ -13,7 +13,6 @@ app = Flask(__name__)
 @app.route('/home')
 @app.route('/calender')
 def index():
-    global yr
     yr = request.args.get('year')
     race_list = season.race_calendar(yr)
     date_today = utils.current_date()
@@ -22,12 +21,14 @@ def index():
 
 @app.route('/driver-standings')
 def driver_standings():
+    yr = request.args.get('year')
     d = current_standings.current_driver_standings(yr)
     return render_template('driver_standings.html', d_standings=d)
 
 
 @app.route('/constructor-standings')
 def constructor_standings():
+    yr = request.args.get('year')
     c = current_standings.current_constructor_standings(yr)
     return render_template('constructor_standings.html', c_standings=c)
 

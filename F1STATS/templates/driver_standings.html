@@ -1,5 +1,39 @@
 {% extends 'layout.html' %}
 
+{% block navbar %}
+   <!-- Navigation -->
+     <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+
+                <form class="form-inline" action="{{ url_for('index') }}">
+                    <input class="form-control mr-sm-2" type="text" name="year" placeholder="Specify Year">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}
+                            {% if d_standings|length > 0 %}?year={{ d_standings['RoundInfo']['season'] }}{% endif %}">Calender</a></li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('driver_standings') }}
+                            {% if d_standings|length > 0 %}?year={{ d_standings['RoundInfo']['season'] }}{% endif %}">Driver Standings</a></li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('constructor_standings') }}
+                            {% if d_standings|length > 0 %}?year={{ d_standings['RoundInfo']['season'] }}{% endif %}">Constructor Standings</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock navbar %}
+
 {% block page_content %}
     <div class="page_header text-center">
         {% if d_standings|length == 0 %}
