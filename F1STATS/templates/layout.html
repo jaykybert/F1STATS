@@ -26,14 +26,14 @@
 
             <div class="collapse navbar-collapse" id="navbarResponsive">
 
-                <form class="form-inline" action="{{ url_for('calender') }}">
-                    <input class="form-control mr-sm-2" type="text" name="year" placeholder="Year">
+                <form class="form-inline" action="{{ url_for('index') }}">
+                    <input class="form-control mr-sm-2" type="text" name="year" placeholder="Specify Year">
                     <button class="btn btn-primary" type="submit">Search</button>
                 </form>
 
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('calender') }}">Calender</a></li>
+                        <a class="nav-link" href="{{ url_for('index') }}">Calender</a></li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('driver_standings') }}">Driver Standings</a></li>

@@ -11,13 +11,8 @@ app = Flask(__name__)
 
 @app.route('/')
 @app.route('/home')
-@app.route('/index')
-def index():
-    return render_template('index.html')
-
-
 @app.route('/calender')
-def calender():
+def index():
     global yr
     yr = request.args.get('year')
     race_list = season.race_calendar(yr)
