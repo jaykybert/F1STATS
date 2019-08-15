@@ -1,5 +1,48 @@
 {% extends 'layout.html' %}
 
+{% block navbar %}
+   <!-- Navigation -->
+     <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+
+                <form class="form-inline" action="{{ url_for('index') }}">
+                    <input class="form-control mr-sm-2" type="text" name="year" placeholder="Specify Year">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+
+                {% if results|length == 0 %}
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('index') }}">Calender</a></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('driver_standings') }}">Driver Standings</a></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('constructor_standings') }}">Constructor Standings</a></li>
+                    </ul>
+                {% else %}
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('index') }}?year={{ results['RoundInfo']['season'] }}">Calender</a></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('driver_standings') }}?year={{ results['RoundInfo']['Season'] }}">Driver Standings</a></li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('constructor_standings') }}?year={{ results['RoundInfo']['season'] }}">Constructor Standings</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+{% endblock navbar %}
+
 {% block page_content %}
     <div class="text-center f1_links">
         {% if results|length == 0 %}

@@ -33,7 +33,7 @@
 {% block page_content %}
     <div class="container">
         <div class="page_header text-center">
-            <h2 class="display-4">The {{ races['year'] }} Calender</h2>
+            <h2 class="display-4">The {{ races['year'] }} Formula One Calender</h2>
             {% if races|length == 0 %}
                 <div class="alert alert-danger" role="alert">
                     Sorry, we tried requesting the information but got no response!
@@ -62,10 +62,10 @@
                         <!-- Display links to results if the race has happened. -->
                         {% if r['date']['datetime'] < today %}
                             <p class="card-text">
-                                <a href="{{ url_for('qualifying') }}?round_n={{ r['round'] }}&year={{ races['year'] }}">View Qualifying Results</a> <br />
-                                <a href="{{ url_for('race') }}?round_n={{ r['round'] }}&year={{ races['year'] }}">View Race Results</a></p>
+                                <a href="{{ url_for('qualifying') }}?year={{ races['year'] }}&round={{ r['round'] }}">View Qualifying Results</a> <br />
+                                <a href="{{ url_for('race') }}?year={{ races['year'] }}&round={{ r['round'] }}">View Race Results</a></p>
                         {% else %}
-                            <p class="card-text">
+                            <p class="card-text" style="font-style: italic;">
                                 Qualifying Results Unavailable <br />
                                 Race Results Unavailable </p>
                         {% endif %}

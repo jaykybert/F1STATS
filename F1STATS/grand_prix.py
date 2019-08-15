@@ -28,7 +28,6 @@ def race_results(round_n=None, season=None):
 
     try:
         data = json.loads(response.text)
-
         # If the race has not happened yet.
         if not data['MRData']['RaceTable']['Races']:
             return []
@@ -99,7 +98,6 @@ def qualifying_results(round_n=None, season=None):
 
     try:
         data = json.loads(response.text)
-
         # If the race has not happened yet.
         if not data['MRData']['RaceTable']['Races']:
             return []
@@ -171,5 +169,3 @@ def qualifying_results(round_n=None, season=None):
 
     except ValueError:
         return []
-
-
