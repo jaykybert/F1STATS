@@ -1,6 +1,12 @@
 {% extends 'layout.html' %}
 
 {% block page_content %}
-    {{ error }}
+    <div class="container text-center">
+        <h2 class="display-4">Invalid Page, oops!</h2>
+        {{ error }}
+        <br />
+        <br />
+        <a class="btn btn-primary" href="{{ url_for('index') }}" role="button">Return to Homepage</a>
+    </div>
 
 {% endblock page_content %}
