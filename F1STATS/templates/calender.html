@@ -34,14 +34,13 @@
     <div class="container">
         <div class="page_header text-center">
             <h2 class="display-4">The {{ races['year'] }} Formula One Calender</h2>
-            {% if races|length == 0 %}
+            {% if races['Races']|length == 0 %} <!-- If any issues: Add or races|length == 0 -->
                 <div class="alert alert-danger" role="alert">
                     Sorry, we tried requesting the information but got no response!
                 </div>
             {% else %}
                 <p>Below, you can view the qualifying and race results for past race weekends of {{ races['year'] }}. You can use the navigation
-                bar at the top to view the driver and constructor standings, as well as the results of the most recent
-                grand prix.</p>
+                bar at the top to view the driver and constructor standings, or to return to the calender page.</p>
             {% endif %}
         </div>
 
