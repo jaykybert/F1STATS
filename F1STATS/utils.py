@@ -1,5 +1,6 @@
 import datetime
 import re
+import json
 
 
 def date_format(d):
@@ -48,3 +49,25 @@ def total_seconds(time):
         milli /= 1000
 
         return mins + secs + milli
+
+
+def demonym_to_code(dem_list=None):
+    """ Find the country code, given the demonym (name of people).
+
+    """
+    if dem_list is None:
+        return []
+
+    with open("static/countries")as f:
+        content = f.read()
+
+    content = json.loads(content)
+
+    code_dict = {}
+    for country in content:
+        if country['demonym'] in dem_list:
+            code_dict[country['demonym']] = country['cca2']
+
+    return code_dict
+
+
