@@ -53,3 +53,7 @@ def qualifying():
 @app.errorhandler(404)
 def invalid_page(error):
     return render_template('invalid_page.html', error=error)
+
+
+if __name__ == "__main__":
+    app.run()
