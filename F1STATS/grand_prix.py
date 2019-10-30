@@ -1,5 +1,4 @@
 import requests
-import json
 from utils import *  # total_seconds and date_format functions.
 
 
@@ -13,14 +12,14 @@ def race_results(round_n=None, season=None):
     """
     if round_n is None:
         if season is None:  # Most-recent race, current season.
-            url = 'http://ergast.com/api/f1/current/last/results.json'
+            url = 'https://ergast.com/api/f1/current/last/results.json'
         else:  # Most-recent race, specific season.
-            url = 'http://ergast.com/api/f1/{}/last/results.json'.format(season)
+            url = 'https://ergast.com/api/f1/{}/last/results.json'.format(season)
     else:
         if season is None:  # Specific race, current season.
-            url = 'http://ergast.com/api/f1/current/{}/results.json'.format(round_n)
+            url = 'https://ergast.com/api/f1/current/{}/results.json'.format(round_n)
         else:  # Specific race, specific season.
-            url = 'http://ergast.com/api/f1/{}/{}/results.json'.format(season, round_n)
+            url = 'https://ergast.com/api/f1/{}/{}/results.json'.format(season, round_n)
 
     response = requests.get(url)
     if not response.ok:
@@ -83,14 +82,14 @@ def qualifying_results(round_n=None, season=None):
     """
     if round_n is None:
         if season is None:  # Most-recent qualifying, current season.
-            url = 'http://ergast.com/api/f1/current/last/qualifying.json'
+            url = 'https://ergast.com/api/f1/current/last/qualifying.json'
         else:  # Most-recent qualifying, specific season.
-            url = 'http://ergast.com/api/f1/{}/last/qualifying.json'.format(season)
+            url = 'https://ergast.com/api/f1/{}/last/qualifying.json'.format(season)
     else:
         if season is None:  # Specific qualifying, current season.
-            url = 'http://ergast.com/api/f1/current/{}/qualifying.json'.format(round_n)
+            url = 'https://ergast.com/api/f1/current/{}/qualifying.json'.format(round_n)
         else:  # Specific qualifying, specific season.
-            url = 'http://ergast.com/api/f1/{}/{}/qualifying.json'.format(season, round_n)
+            url = 'https://ergast.com/api/f1/{}/{}/qualifying.json'.format(season, round_n)
 
     response = requests.get(url)
     if not response.ok:

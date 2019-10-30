@@ -11,11 +11,11 @@ def race_calendar(year=None):
     # If year is None or invalid, request current standings.
     try:
         year = int(year)
-        url = 'http://ergast.com/api/f1/{}.json'.format(year)
+        url = 'https://ergast.com/api/f1/{}.json'.format(year)
     except ValueError:
-        url = 'http://ergast.com/api/f1/current.json'
+        url = 'https://ergast.com/api/f1/current.json'
     except TypeError:
-        url = 'http://ergast.com/api/f1/current.json'
+        url = 'https://ergast.com/api/f1/current.json'
 
     response = requests.get(url)
     if not response.ok:

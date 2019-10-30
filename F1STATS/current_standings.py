@@ -8,9 +8,9 @@ def current_driver_standings(season=None):
     :return driver_dict: A dict containing a sorted list of drivers by points and round info.
     """
     if season is None:
-        url = 'http://ergast.com/api/f1/current/driverStandings.json'
+        url = 'https://ergast.com/api/f1/current/driverStandings.json'
     else:
-        url = 'http://ergast.com/api/f1/{}/driverStandings.json'.format(season)
+        url = 'https://ergast.com/api/f1/{}/driverStandings.json'.format(season)
 
     response = requests.get(url)
     if not response.ok:
@@ -55,9 +55,9 @@ def current_constructor_standings(season=None):
     :return cons_dict: A dict containing a sorted list of constructors by points and round info.
     """
     if season is None:
-        url = 'http://ergast.com/api/f1/current/constructorStandings.json'
+        url = 'https://ergast.com/api/f1/current/constructorStandings.json'
     else:
-        url = 'http://ergast.com/api/f1/{}/constructorStandings.json'.format(season)
+        url = 'https://ergast.com/api/f1/{}/constructorStandings.json'.format(season)
 
     response = requests.get(url)
     if not response.ok:

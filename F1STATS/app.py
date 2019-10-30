@@ -13,31 +13,31 @@ app = Flask(__name__)
 @app.route('/home')
 @app.route('/calender')
 def index():
-    yr = request.args.get('year')
-    race_list = season.race_calendar(yr)
+    year = request.args.get('year')
+    race_list = season.race_calendar(year)
     date_today = utils.current_date()
     return render_template('calender.html', races=race_list, today=date_today)
 
 
 @app.route('/driver-standings')
 def driver_standings():
-    yr = request.args.get('year')
-    d = current_standings.current_driver_standings(yr)
+    year = request.args.get('year')
+    d = current_standings.current_driver_standings(year)
     return render_template('driver_standings.html', d_standings=d)
 
 
 @app.route('/constructor-standings')
 def constructor_standings():
-    yr = request.args.get('year')
-    c = current_standings.current_constructor_standings(yr)
+    year = request.args.get('year')
+    c = current_standings.current_constructor_standings(year)
     return render_template('constructor_standings.html', c_standings=c)
 
 
 @app.route('/race')
 def race():
-    round_n = request.args.get('round_n')
-    yr = request.args.get('year')
-    r = grand_prix.race_results(round_n, yr)
+    round_no = request.args.get('round')
+    year = request.args.get('year')
+    r = grand_prix.race_results(round_no, year)
     return render_template('race.html', results=r)
 
 
@@ -53,7 +53,3 @@ def qualifying():
 @app.errorhandler(404)
 def invalid_page(error):
     return render_template('invalid_page.html', error=error)
-
-
-if __name__ == '__main__':
-    app.run()
