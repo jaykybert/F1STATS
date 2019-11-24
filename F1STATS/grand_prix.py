@@ -115,18 +115,21 @@ def qualifying_results(round_n=None, season=None):
                 q1_secs = total_seconds(q1_text)
             except KeyError:
                 q1_text = ''
+                q1_secs = ''
 
             try:
                 q2_text = driver['Q2']  # Drivers eliminated in Q1 won't be in Q2.
                 q2_secs = total_seconds(q2_text)
             except KeyError:
                 q2_text = ''
+                q2_secs = ''
 
             try:
                 q3_text = driver['Q3']  # Drivers eliminated in Q2 won't be in Q3.
                 q3_secs = total_seconds(q3_text)
             except KeyError:
                 q3_text = ''
+                q3_secs = ''
 
             # Find the delta between qualifying sessions (Q3 - Q2, Q2 - Q1).
             if q3_text is not '':
