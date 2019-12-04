@@ -64,7 +64,7 @@ def race_results(round_n=None, season=None):
         circuit = data['MRData']['RaceTable']['Races'][0]['Circuit']['circuitName']
         circuit_url = data['MRData']['RaceTable']['Races'][0]['Circuit']['url']
 
-        driver_dict['RoundInfo'] = {'race': race, 'circuit': circuit, 'url:': circuit_url,
+        driver_dict['RoundInfo'] = {'race': race, 'circuit': circuit, 'url': circuit_url,
                                     'round': round_n, 'season': season, 'date': date}
         return driver_dict
 
