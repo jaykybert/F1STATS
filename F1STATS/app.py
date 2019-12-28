@@ -50,6 +50,11 @@ def qualifying():
     return render_template('qualifying.html', results=q)
 
 
+@app.route('/constructor-history')
+def constructor_history():
+    return render_template('constructor_history.html')
+
+
 @app.errorhandler(404)
 def invalid_page(error):
     return render_template('invalid_page.html', error=error)
