@@ -1,31 +1,47 @@
 {% extends 'layout.html' %}
 
 {% block navbar %}
-   <!-- Navigation -->
-     <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
 
-            <div class="collapse navbar-collapse" id="navbarResponsive">
+        <!-- Search Bar & Button -->
+        <form class="form-inline" action="{{ url_for('index') }}">
+            <input class="form-control mr-sm-2" type="text" name="year" placeholder="Specify Year">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
 
-                <form class="form-inline" action="{{ url_for('index') }}">
-                    <input class="form-control mr-sm-2" type="text" name="year" placeholder="Specify Year">
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </form>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('index') }}?year={{ races['year'] }}">Calender</a></li>
+        <!-- Right-justified Links -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('driver_standings') }}?year={{ races['year'] }}">Driver Standings</a></li>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}?year={{ races['year'] }}">Season Calendar</a>
+                </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('constructor_standings') }}?year={{ races['year'] }}">Constructor Standings</a></li>
-                </ul>
-            </div>
+                <!-- Standings Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="standings_dropdown" role="button" data-toggle="dropdown">Current Standings</a>
+                    <div class="dropdown-menu" aria-labelledby="standings_dropdown">
+                        <a class="dropdown-item" href="{{ url_for('driver_standings') }}?year={{ races['year'] }}">Driver</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ url_for('constructor_standings') }}?year={{ races['year'] }}">Constructor</a>
+                    </div>
+                </li>
+
+                <!-- History Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="history_dropdown" role="button" data-toggle="dropdown">History</a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="history_dropdown">
+                        <a class="dropdown-item" href="#">Driver</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ url_for('constructor_history') }}">Constructor</a>
+                    </div>
+                </li>
+            </ul>
+
         </div>
     </nav>
 {% endblock navbar %}
@@ -37,6 +53,7 @@
             {% if races['Races']|length == 0 %} <!-- If any issues: Add or races|length == 0 -->
                 <div class="alert alert-danger" role="alert">
                     Sorry, we tried requesting the information but got no response!
+                    The server may be down, or this information may not be available.
                 </div>
             {% else %}
                 <p>Below, you can view the qualifying and race results for past race weekends of {{ races['year'] }}. You can use the navigation
