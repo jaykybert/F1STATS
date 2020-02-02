@@ -21,8 +21,9 @@ def index():
 
 @app.route('/driver-standings')
 def driver_standings():
+    round_no = request.args.get('round')
     year = request.args.get('year')
-    d = current_standings.current_driver_standings(year)
+    d = current_standings.current_driver_standings(round_no, year)
     return render_template('driver_standings.html', d_standings=d)
 
 

@@ -2,15 +2,22 @@ import requests
 import json
 
 
-def current_driver_standings(season=None):
+def current_driver_standings(round_n=None, season=None):
     """ Get the current Formula 1 Driver Standings.
-
+    :param season: Season of standings.
+    :param round_n: Round of standings.
     :return driver_dict: A dict containing a sorted list of drivers by points and round info.
     """
-    if season is None:
-        url = 'https://ergast.com/api/f1/current/driverStandings.json'
+    if round_n is None:
+        if season is None:  # Final standings, current season.
+            url = 'https://ergast.com/api/f1/current/driverStandings.json'
+        else:  # Final standings, specific season.
+            url = 'https://ergast.com/api/f1/{}/driverStandings.json'.format(season)
     else:
-        url = 'https://ergast.com/api/f1/{}/driverStandings.json'.format(season)
+        if season is None:  # Specific round standings, current season.
+            url = 'https://ergast.com/api/f1/current/{}/driverStandings.json'.format(round_n)
+        else:  # Specific round standings, specific season.
+            url = 'https://ergast.com/api/f1/{}/{}/driverStandings.json'.format(season, round_n)
 
     response = requests.get(url)
     if not response.ok:
