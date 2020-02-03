@@ -2,22 +2,22 @@ import requests
 import json
 
 
-def current_driver_standings(round_n=None, season=None):
+def current_driver_standings(round_no=None, season=None):
     """ Get the current Formula 1 Driver Standings.
+    :param round_no: Round of standings.
     :param season: Season of standings.
-    :param round_n: Round of standings.
     :return driver_dict: A dict containing a sorted list of drivers by points and round info.
     """
-    if round_n is None:
+    if round_no is None:
         if season is None:  # Final standings, current season.
             url = 'https://ergast.com/api/f1/current/driverStandings.json'
         else:  # Final standings, specific season.
             url = 'https://ergast.com/api/f1/{}/driverStandings.json'.format(season)
     else:
         if season is None:  # Specific round standings, current season.
-            url = 'https://ergast.com/api/f1/current/{}/driverStandings.json'.format(round_n)
+            url = 'https://ergast.com/api/f1/current/{}/driverStandings.json'.format(round_no)
         else:  # Specific round standings, specific season.
-            url = 'https://ergast.com/api/f1/{}/{}/driverStandings.json'.format(season, round_n)
+            url = 'https://ergast.com/api/f1/{}/{}/driverStandings.json'.format(season, round_no)
 
     response = requests.get(url)
     if not response.ok:
@@ -56,15 +56,22 @@ def current_driver_standings(round_n=None, season=None):
         return []
 
 
-def current_constructor_standings(season=None):
+def current_constructor_standings(round_no=None, season=None):
     """ Get the current Formula 1 Constructor Standings
-
+    :param round_no: Round of standings.
+    :param season: Season of standings.
     :return cons_dict: A dict containing a sorted list of constructors by points and round info.
     """
-    if season is None:
-        url = 'https://ergast.com/api/f1/current/constructorStandings.json'
+    if round_no is None:
+        if season is None:  # Final standings, current season.
+            url = 'https://ergast.com/api/f1/current/constructorStandings.json'
+        else:  # Final standings, specific season.
+            url = 'https://ergast.com/api/f1/{}/constructorStandings.json'.format(season)
     else:
-        url = 'https://ergast.com/api/f1/{}/constructorStandings.json'.format(season)
+        if season is None:  # Specific round standings, current season.
+            url = 'https://ergast.com/api/f1/current/{}/constructorStandings.json'.format(round_no)
+        else:  # Specific round standings, specific season.
+            url = 'https://ergast.com/api/f1/{}/{}/constructorStandings.json'.format(season, round_no)
 
     response = requests.get(url)
     if not response.ok:

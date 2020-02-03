@@ -78,9 +78,10 @@
                         <!-- Display links to results if the race has happened. -->
                         {% if r['date']['datetime'] < today %}
                             <p class="card-text">
-                                <a href="{{ url_for('qualifying') }}?year={{ races['year'] }}&round={{ r['round'] }}">View Qualifying Results</a> <br />
-                                <a href="{{ url_for('race') }}?year={{ races['year'] }}&round={{ r['round'] }}">View Race Results</a> <br />
-                                <a href="{{ url_for('driver_standings') }}?year={{ races['year'] }}&round={{ r['round'] }}">View Standings</a></p>
+                                <a href="{{ url_for('qualifying') }}?year={{ races['year'] }}&round={{ r['round'] }}">Qualifying</a> and
+                                <a href="{{ url_for('race') }}?year={{ races['year'] }}&round={{ r['round'] }}">Race</a> <br />
+                                <a href="{{ url_for('driver_standings') }}?year={{ races['year'] }}&round={{ r['round'] }}">Driver Standings</a> <br/>
+                                <a href="{{ url_for('constructor_standings') }}?year={{ races['year'] }}&round={{ r['round'] }}">Constructor Standings</a></p>
                         {% else %}
                             <p class="card-text" style="font-style: italic;">
                                 Qualifying Results Unavailable <br />

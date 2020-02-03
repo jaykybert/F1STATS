@@ -29,8 +29,9 @@ def driver_standings():
 
 @app.route('/constructor-standings')
 def constructor_standings():
+    round_no = request.args.get('round')
     year = request.args.get('year')
-    c = current_standings.current_constructor_standings(year)
+    c = current_standings.current_constructor_standings(round_no, year)
     return render_template('constructor_standings.html', c_standings=c)
 
 
