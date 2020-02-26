@@ -1,4 +1,5 @@
 import requests
+import json
 from utils import *  # total_seconds and date_format functions.
 
 
@@ -23,13 +24,13 @@ def race_results(round_n=None, season=None):
 
     response = requests.get(url)
     if not response.ok:
-        return []
+        return {}
 
     try:
         data = json.loads(response.text)
         # If the race has not happened yet.
         if not data['MRData']['RaceTable']['Races']:
-            return []
+            return {}
 
         driver_list = []
         for driver in data['MRData']['RaceTable']['Races'][0]['Results']:
@@ -69,7 +70,7 @@ def race_results(round_n=None, season=None):
         return driver_dict
 
     except ValueError:
-        return []
+        return {}
 
 
 def qualifying_results(round_n=None, season=None):
@@ -93,13 +94,14 @@ def qualifying_results(round_n=None, season=None):
 
     response = requests.get(url)
     if not response.ok:
-        return []
+        return {}
 
     try:
         data = json.loads(response.text)
         # If the race has not happened yet.
         if not data['MRData']['RaceTable']['Races']:
-            return []
+            print('no race data')
+            return {}
 
         driver_list = []
         for driver in data['MRData']['RaceTable']['Races'][0]['QualifyingResults']:
@@ -152,7 +154,8 @@ def qualifying_results(round_n=None, season=None):
 
             # q_sec variables are only used to find fastest lap.
             driver_quali_info = {'fn': fn, 'ln': ln, 'url': url, 'pos': pos, 'q1': {'text': q1_text, 'secs': q1_secs},
-                                 'q2': {'text': q2_text, 'secs': q2_secs}, 'q3': {'text': q3_text, 'secs': q3_secs}, 'q2d': q2_delta, 'q3d': q3_delta}
+                                 'q2': {'text': q2_text, 'secs': q2_secs}, 'q3': {'text': q3_text, 'secs': q3_secs},
+                                 'q2d': q2_delta, 'q3d': q3_delta}
             driver_list.append(driver_quali_info)
 
         driver_dict = {'Driver': driver_list}
@@ -170,4 +173,4 @@ def qualifying_results(round_n=None, season=None):
         return driver_dict
 
     except ValueError:
-        return []
+        return {}

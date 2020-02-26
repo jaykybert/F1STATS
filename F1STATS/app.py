@@ -4,7 +4,8 @@ import current_standings
 import grand_prix
 import season
 # Get today's date.
-import utils
+from utils import current_date
+from utils import validate_response
 
 app = Flask(__name__)
 
@@ -15,7 +16,7 @@ app = Flask(__name__)
 def index():
     year = request.args.get('year')
     race_list = season.race_calendar(year)
-    date_today = utils.current_date()
+    date_today = current_date()
     return render_template('calender.html', races=race_list, today=date_today)
 
 
@@ -49,6 +50,7 @@ def qualifying():
     round_no = request.args.get('round')
     year = request.args.get('year')
     q = grand_prix.qualifying_results(round_no, year)
+    validate_response(q)
     return render_template('qualifying.html', results=q)
 
 
