@@ -48,9 +48,3 @@ def total_seconds(time):
         milli /= 1000
 
         return mins + secs + milli
-
-
-def validate_response(data):
-    if len(data) == 0:
-        data['RoundInfo'] = {'season': '2019'}
-

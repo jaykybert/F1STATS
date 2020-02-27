@@ -5,7 +5,6 @@ import grand_prix
 import season
 # Get today's date.
 from utils import current_date
-from utils import validate_response
 
 app = Flask(__name__)
 
@@ -50,7 +49,6 @@ def qualifying():
     round_no = request.args.get('round')
     year = request.args.get('year')
     q = grand_prix.qualifying_results(round_no, year)
-    validate_response(q)
     return render_template('qualifying.html', results=q)
 
 
