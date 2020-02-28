@@ -1,6 +1,7 @@
 import requests
 import json
-from utils import *  # total_seconds and date_format functions.
+from utils import total_seconds
+from utils import date_format
 
 
 def race_results(round_n=None, season=None):
@@ -100,7 +101,6 @@ def qualifying_results(round_n=None, season=None):
         data = json.loads(response.text)
         # If the race has not happened yet.
         if not data['MRData']['RaceTable']['Races']:
-            print('no race data')
             return {}
 
         driver_list = []

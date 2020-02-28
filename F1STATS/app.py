@@ -4,7 +4,7 @@ import current_standings
 import grand_prix
 import season
 # Get today's date.
-from utils import current_date
+import utils
 
 app = Flask(__name__)
 
@@ -15,7 +15,7 @@ app = Flask(__name__)
 def index():
     year = request.args.get('year')
     race_list = season.race_calendar(year)
-    date_today = current_date()
+    date_today = utils.current_date()
     return render_template('calender.html', races=race_list, today=date_today)
 
 
@@ -64,3 +64,6 @@ def invalid_page(error):
 
 if __name__ == "__main__":
     app.run()
+
+# TODO: Add win percentage to the constructor's championship.
+# TODO: Add point deficit to the next driver (?) in the standings - consider branching for this, will be a lot of work.
