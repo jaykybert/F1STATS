@@ -1,6 +1,8 @@
 import requests
 import json
 
+import pprint
+
 
 def current_driver_standings(round_no=None, season=None):
     """ Get the current Formula 1 Driver Standings.
@@ -83,6 +85,11 @@ def current_constructor_standings(round_no=None, season=None):
         if len(data['MRData']['StandingsTable']['StandingsLists']) == 0:
             return []
 
+        cons_dict = {}
+        round_no = data['MRData']['StandingsTable']['StandingsLists'][0]['round']
+        season = data['MRData']['StandingsTable']['StandingsLists'][0]['season']
+        cons_dict['RoundInfo'] = {'round': round_no, 'season': season}
+
         cons_list = []
         for con in data['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']:
             name = con['Constructor']['name']
@@ -91,16 +98,13 @@ def current_constructor_standings(round_no=None, season=None):
             points = con['points']
             pos = con['position']
             wins = con['wins']
+            win_percent = round((int(wins) / int(round_no)) * 100, 1)
 
             con_info = {'name': name, 'nationality': nation, 'url': url,
-                        'points': points, 'pos': pos, 'wins': wins}
+                        'points': points, 'pos': pos, 'wins': {'number': wins, 'percentage': win_percent}}
             cons_list.append(con_info)
 
-        cons_dict = {'Constructor': cons_list}
-
-        round_no = data['MRData']['StandingsTable']['StandingsLists'][0]['round']
-        season = data['MRData']['StandingsTable']['StandingsLists'][0]['season']
-        cons_dict['RoundInfo'] = {'round': round_no, 'season': season}
+        cons_dict['Constructor'] = cons_list
 
         return cons_dict
 

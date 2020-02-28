@@ -25,7 +25,7 @@
 
                     <!-- Standings Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="standings_dropdown" role="button" data-toggle="dropdown">Standings</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="standings_dropdown" role="button" data-toggle="dropdown">Season Standings</a>
                         <div class="dropdown-menu" aria-labelledby="standings_dropdown">
 
                             <a class="dropdown-item" href="{{ url_for('driver_standings') }}?year={% if results|length == 0 %}2019
@@ -55,15 +55,15 @@
 
 {% block page_content %}
     <div class="page_header text-center">
-        {% if c_standings|length == 0 %}
+        {% if results|length == 0 %}
             <div class="alert alert-danger" role="alert">
                 Sorry, we had trouble finding the constructor standings.
                 The server may be down, or this information may not be available.
              </div>
 
         {% else %}
-            <h1 class="display-4">The {{ c_standings['RoundInfo']['season'] }} Formula 1 Constructor's Championship</h1>
-            <p>Data taken from round {{ c_standings['RoundInfo']['round'] }}, {{ c_standings['RoundInfo']['season'] }}.</p>
+            <h1 class="display-4">The {{ results['RoundInfo']['season'] }} Formula 1 Constructor's Championship</h1>
+            <p>Data taken from round {{ results['RoundInfo']['round'] }}, {{ results['RoundInfo']['season'] }}.</p>
     </div>
         <table class="container table table-striped f1_links">
             <tr>
@@ -72,14 +72,18 @@
                 <th>Nationality</th>
                 <th>Points</th>
                 <th>Wins</th>
+                <th>Win %</th>
             </tr>
-            {% for c in c_standings['Constructor'] %}
+            {% for con in results['Constructor'] %}
                 <tr>
-                    <td>{{ c['pos'] }}</td>
-                    <td><a href="{{ c['url'] }}">{{ c['name'] }}</a></td>
-                    <td>{{ c['nationality'] }}</td>
-                    <td>{{ c['points'] }}</td>
-                    <td>{{ c['wins'] }}</td>
+                    <td>{{ con['pos'] }}</td>
+                    <td><a href="{{ con['url'] }}">{{ con['name'] }}</a></td>
+                    <td>{{ con['nationality'] }}</td>
+                    <td>{{ con['points'] }}</td>
+                    <td>{{ con['wins']['number'] }}</td>
+                    <td>{% if con['wins']['percentage'] > 0 %}{{ con['wins']['percentage'] }}%{% endif %}</td>
+
+
                 </tr>
             {% endfor %}
         </table>

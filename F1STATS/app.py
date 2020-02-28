@@ -24,7 +24,7 @@ def driver_standings():
     round_no = request.args.get('round')
     year = request.args.get('year')
     d = current_standings.current_driver_standings(round_no, year)
-    return render_template('driver_standings.html', d_standings=d)
+    return render_template('driver_standings.html', results=d)
 
 
 @app.route('/constructor-standings')
@@ -32,7 +32,7 @@ def constructor_standings():
     round_no = request.args.get('round')
     year = request.args.get('year')
     c = current_standings.current_constructor_standings(round_no, year)
-    return render_template('constructor_standings.html', c_standings=c)
+    return render_template('constructor_standings.html', results=c)
 
 
 @app.route('/race')
@@ -44,7 +44,6 @@ def race():
 
 
 @app.route('/qualifying')
-@app.route('/quali')
 def qualifying():
     round_no = request.args.get('round')
     year = request.args.get('year')
@@ -65,5 +64,4 @@ def invalid_page(error):
 if __name__ == "__main__":
     app.run()
 
-# TODO: Add win percentage to the constructor's championship.
 # TODO: Add point deficit to the next driver (?) in the standings - consider branching for this, will be a lot of work.

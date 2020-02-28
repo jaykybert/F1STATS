@@ -25,7 +25,7 @@
 
                     <!-- Standings Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="standings_dropdown" role="button" data-toggle="dropdown">Standings</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="standings_dropdown" role="button" data-toggle="dropdown">Season Standings</a>
                         <div class="dropdown-menu" aria-labelledby="standings_dropdown">
 
                             <a class="dropdown-item" href="{{ url_for('driver_standings') }}?year={% if results|length == 0 %}2019
@@ -55,15 +55,16 @@
 
 
 {% block page_content %}
+
     <div class="page_header text-center">
-        {% if d_standings|length == 0 %}
+        {% if results|length == 0 %}
              <div class="alert alert-danger" role="alert">
                 Sorry, we had trouble finding the driver standings.
                  The server may be down, or this information may not be available.
              </div>
         {% else %}
-            <h1 class="display-4">The {{ d_standings['RoundInfo']['season'] }} Formula 1 Driver's Championship</h1>
-            <p>Data taken from round {{ d_standings['RoundInfo']['round'] }}, {{ d_standings['RoundInfo']['season'] }}.</p>
+            <h1 class="display-4">The {{ results['RoundInfo']['season'] }} Formula 1 Driver's Championship</h1>
+            <p>Data taken from round {{ results['RoundInfo']['round'] }}, {{ results['RoundInfo']['season'] }}.</p>
     </div>
         <table class="container table table-striped border f1_links">
             <tr>
@@ -73,13 +74,13 @@
                 <th>Constructor</th>
                 <th>Points</th>
             </tr>
-            {% for d in d_standings['Driver'] %}
+            {% for driver in results['Driver'] %}
                 <tr>
-                    <td>{{ d['pos'] }}</td>
-                    <td><a href="{{ d['url'] }}">{{ d['fn'] }}</a></td>
-                    <td><a href="{{ d['url'] }}">{{ d['ln'] }}</a></td>
-                    <td>{{ d['cons'] }}</td>
-                    <td>{{ d['points'] }}</td>
+                    <td>{{ driver['pos'] }}</td>
+                    <td><a href="{{ driver['url'] }}">{{ driver['fn'] }}</a></td>
+                    <td><a href="{{ driver['url'] }}">{{ driver['ln'] }}</a></td>
+                    <td>{{ driver['cons'] }}</td>
+                    <td>{{ driver['points'] }}</td>
                 </tr>
             {% endfor %}
         </table>
