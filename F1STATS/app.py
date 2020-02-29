@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 # API Requests.
 import current_standings
 import grand_prix
+import grand_prix_experimental
 import season
 # Get today's date.
 import utils
@@ -47,13 +48,8 @@ def race():
 def qualifying():
     round_no = request.args.get('round')
     year = request.args.get('year')
-    q = grand_prix.qualifying_results(round_no, year)
+    q = grand_prix_experimental.qualifying_results(round_no, year)
     return render_template('qualifying.html', results=q)
-
-
-@app.route('/constructor-history')
-def constructor_history():
-    return render_template('constructor_history.html')
 
 
 @app.errorhandler(404)

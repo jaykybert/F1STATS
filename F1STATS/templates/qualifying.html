@@ -37,16 +37,6 @@
                                                                                                        {% endif %}">Constructor</a>
                         </div>
                     </li>
-
-                    <!-- History Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="history_dropdown" role="button" data-toggle="dropdown">History</a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="history_dropdown">
-                            <a class="dropdown-item" href="#">Driver</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url_for('constructor_history') }}">Constructor</a>
-                        </div>
-                    </li>
                 </ul>
         </div>
     </nav>
@@ -76,7 +66,6 @@
                 <th>Surname</th>
                 <th>Q1</th>
                 <th>Q2</th>
-                <th></th>
                 <th>Q3</th>
                 <th></th>
             </tr>
@@ -87,30 +76,14 @@
                     <td><a href="{{ d['url'] }}">{{ d['ln'] }}</a></td>
                     <td>{{ d['q1']['text'] }}</td>
                     <td>{{ d['q2']['text'] }}</td>
-
-                    <!-- Show Q2 - Q1 delta if available -->
-                    {% if d['q2d'] != '' %}
-                        {% if d['q2d'] >= 0 %}
-                            <td style="color: RED; font-size: 12px;" >+{{ d['q2d'] }}</td>
-                        {% else %}
-                            <td style="color: GREEN; font-size: 12px;">{{ d['q2d'] }}</td>
-                        {% endif %}
-                    {% else %}
-                        <td></td>
-                    {% endif %}
-
                     <td>{{ d['q3']['text'] }}</td>
 
-                    <!-- Show Q3 - Q2 delta if available -->
-                    {% if d['q3d'] != '' %}
-                        {% if d['q3d'] >= 0 %}
-                            <td style="color: RED; font-size: 12px;">+{{ d['q3d'] }}</td>
-                        {% else %}
-                            <td style="color: GREEN; font-size: 12px;">{{ d['q3d'] }}</td>
-                        {% endif %}
+                    {% if d['q3']['delta'] != '-' %}
+                        <td style="color: RED; font-size: 12px;">+{{ d['q3']['delta'] }}</td>
                     {% else %}
-                        <td></td>
+                        <td style="font-size: 12px;">-</td>
                     {% endif %}
+
                 </tr>
             {% endfor %}
         </table>
