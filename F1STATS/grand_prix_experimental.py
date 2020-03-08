@@ -3,8 +3,6 @@ import json
 from utils import total_seconds
 from utils import date_format
 
-import pprint
-
 
 def qualifying_results(round_n=None, season=None):
     """ Get relevant information for a current-year Formula 1 qualifying
@@ -35,7 +33,8 @@ def qualifying_results(round_n=None, season=None):
         if not data['MRData']['RaceTable']['Races']:
             return {}
 
-        """ The loop uses range instead of foreach because it references the previous
+        """ 
+        The loop uses range instead of foreach because it references the previous
         driver's qualifying time by index[i-1] to compare them.
         """
         driver_list = []
@@ -63,22 +62,23 @@ def qualifying_results(round_n=None, season=None):
             try:  # Drivers eliminated in Q2 won't be in Q3.
                 q3_text = data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i]['Q3']
                 q3_secs = total_seconds(q3_text)
-                q3_delta = '-'
 
-                try:
-                    q3_delta = round(q3_secs - total_seconds(data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i - 1]['Q3']), 4)
-                except KeyError:
-                    pass
+                # Check the driver position. Cannot reference the previous driver if they are position 1.
+                if int(data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i]['position']) > 1:
+                    # Subtract the faster driver's time from the current driver to find the delta.
+                    q3_delta = round(q3_secs - total_seconds(data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i-1]['Q3']), 4)
+                else:
+                    q3_delta = ''
 
             except KeyError:
                 q3_text = '-'
                 q3_secs = '-'
+                q3_delta = ''
 
             driver_qualifying = {'fn': fn, 'ln': ln, 'url': url, 'pos': pos,
                                  'q1': {'text': q1_text, 'seconds': q1_secs},
                                  'q2': {'text': q2_text, 'seconds': q2_secs},
                                  'q3': {'text': q3_text, 'seconds': q3_secs, 'delta': q3_delta}}
-            print('%s %s: %s' % (fn, ln, q3_delta))
             driver_list.append(driver_qualifying)
 
         driver_dict = {'Driver': driver_list}
@@ -97,5 +97,3 @@ def qualifying_results(round_n=None, season=None):
 
     except ValueError:
         return {}
-
-pprint.pprint(qualifying_results(1, 2019))
