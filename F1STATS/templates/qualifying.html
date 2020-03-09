@@ -77,13 +77,11 @@
                     <td>{{ d['q1']['text'] }}</td>
                     <td>{{ d['q2']['text'] }}</td>
                     <td>{{ d['q3']['text'] }}</td>
-
                     {% if d['q3']['delta'] != '' %}
                         <td style="color: RED; font-size: 12px;">+{{ d['q3']['delta'] }}</td>
                     {% else %}
-                        <td style="font-size: 12px;"></td>
+                        <td></td>
                     {% endif %}
-
                 </tr>
             {% endfor %}
         </table>

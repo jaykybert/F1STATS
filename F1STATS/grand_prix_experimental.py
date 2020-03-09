@@ -62,14 +62,13 @@ def qualifying_results(round_n=None, season=None):
             try:  # Drivers eliminated in Q2 won't be in Q3.
                 q3_text = data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i]['Q3']
                 q3_secs = total_seconds(q3_text)
-
                 # Check the driver position. Cannot reference the previous driver if they are position 1.
                 if int(data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i]['position']) > 1:
                     # Subtract the faster driver's time from the current driver to find the delta.
-                    q3_delta = round(q3_secs - total_seconds(data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i-1]['Q3']), 4)
+                    q3_delta = round(q3_secs - total_seconds(
+                        data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i-1]['Q3']), 4)
                 else:
                     q3_delta = ''
-
             except KeyError:
                 q3_text = '-'
                 q3_secs = '-'
