@@ -103,60 +103,52 @@ def qualifying_results(round_n=None, season=None):
         if not data['MRData']['RaceTable']['Races']:
             return {}
 
+        """ 
+        The loop uses range instead of foreach because it references the previous
+        driver's qualifying time by index[i-1] to compare them.
+        """
         driver_list = []
-        for driver in data['MRData']['RaceTable']['Races'][0]['QualifyingResults']:
-            fn = driver['Driver']['givenName']
-            ln = driver['Driver']['familyName']
-            url = driver['Driver']['url']
-            pos = driver['position']
+        for i in range(len(data['MRData']['RaceTable']['Races'][0]['QualifyingResults'])):
 
-            """ The qualifying responses can be empty strings
-            as well as simply not existing as keys. I.E. Q1 = '' """
-            try:
-                q1_text = driver['Q1']  # Drivers may not partake in Q1.
+            fn = data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i]['Driver']['givenName']
+            ln = data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i]['Driver']['familyName']
+            url = data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i]['Driver']['url']
+            pos = data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i]['position']
+
+            try:  # Drivers may not partake in Q1.
+                q1_text = data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i]['Q1']
                 q1_secs = total_seconds(q1_text)
             except KeyError:
-                q1_text = ''
-                q1_secs = ''
+                q1_text = '-'
+                q1_secs = '-'
 
-            try:
-                q2_text = driver['Q2']  # Drivers eliminated in Q1 won't be in Q2.
+            try:  # Drivers eliminated in Q1 won't be in Q2.
+                q2_text = data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i]['Q2']
                 q2_secs = total_seconds(q2_text)
             except KeyError:
-                q2_text = ''
-                q2_secs = ''
+                q2_text = '-'
+                q2_secs = '-'
 
-            try:
-                q3_text = driver['Q3']  # Drivers eliminated in Q2 won't be in Q3.
+            try:  # Drivers eliminated in Q2 won't be in Q3.
+                q3_text = data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i]['Q3']
                 q3_secs = total_seconds(q3_text)
+                # Check the driver position. Cannot reference the previous driver if they are position 1.
+                if int(data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i]['position']) > 1:
+                    # Subtract the faster driver's time from the current driver to find the delta.
+                    q3_delta = round(q3_secs - total_seconds(
+                        data['MRData']['RaceTable']['Races'][0]['QualifyingResults'][i-1]['Q3']), 4)
+                else:
+                    q3_delta = ''
             except KeyError:
-                q3_text = ''
-                q3_secs = ''
-
-            # Find the delta between qualifying sessions (Q3 - Q2, Q2 - Q1).
-            if q3_text is not '':
-                q3_secs = total_seconds(q3_text)
-                q2_secs = total_seconds(q2_text)
-                q1_secs = total_seconds(q1_text)
-
-                q3_delta = round(q3_secs - q2_secs, 3)
-                q2_delta = round(q2_secs - q1_secs, 3)
-
-            elif q2_text is not '':
-                q2_secs = total_seconds(q2_text)
-                q1_secs = total_seconds(q1_text)
-                q3_delta = ''
-                q2_delta = round(q2_secs - q1_secs, 3)
-
-            else:
-                q2_delta = ''
+                q3_text = '-'
+                q3_secs = '-'
                 q3_delta = ''
 
-            # q_sec variables are only used to find fastest lap.
-            driver_quali_info = {'fn': fn, 'ln': ln, 'url': url, 'pos': pos, 'q1': {'text': q1_text, 'secs': q1_secs},
-                                 'q2': {'text': q2_text, 'secs': q2_secs}, 'q3': {'text': q3_text, 'secs': q3_secs},
-                                 'q2d': q2_delta, 'q3d': q3_delta}
-            driver_list.append(driver_quali_info)
+            driver_qualifying = {'fn': fn, 'ln': ln, 'url': url, 'pos': pos,
+                                 'q1': {'text': q1_text, 'seconds': q1_secs},
+                                 'q2': {'text': q2_text, 'seconds': q2_secs},
+                                 'q3': {'text': q3_text, 'seconds': q3_secs, 'delta': q3_delta}}
+            driver_list.append(driver_qualifying)
 
         driver_dict = {'Driver': driver_list}
 
@@ -174,3 +166,4 @@ def qualifying_results(round_n=None, season=None):
 
     except ValueError:
         return {}
+
