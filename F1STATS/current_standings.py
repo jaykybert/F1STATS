@@ -86,9 +86,9 @@ def current_constructor_standings(round_no=None, season=None):
             return []
 
         cons_dict = {}
-        round_no = data['MRData']['StandingsTable']['StandingsLists'][0]['round']
+        round_n = data['MRData']['StandingsTable']['StandingsLists'][0]['round']
         season = data['MRData']['StandingsTable']['StandingsLists'][0]['season']
-        cons_dict['RoundInfo'] = {'round': round_no, 'season': season}
+        cons_dict['RoundInfo'] = {'round': round_n, 'season': season}
 
         cons_list = []
         for con in data['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']:
@@ -98,7 +98,7 @@ def current_constructor_standings(round_no=None, season=None):
             points = con['points']
             pos = con['position']
             wins = con['wins']
-            win_percent = round((int(wins) / int(round_no)) * 100, 1)
+            win_percent = round((int(wins) / int(round_n)) * 100, 1)
 
             con_info = {'name': name, 'nationality': nation, 'url': url,
                         'points': points, 'pos': pos, 'wins': {'number': wins, 'percentage': win_percent}}

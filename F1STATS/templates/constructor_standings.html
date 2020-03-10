@@ -53,7 +53,7 @@
 
         {% else %}
             <h1 class="display-4">The {{ results['RoundInfo']['season'] }} Formula 1 Constructor's Championship</h1>
-            <p>Data taken from round {{ results['RoundInfo']['round'] }}, {{ results['RoundInfo']['season'] }}.</p>
+            <p>Data taken from race {{ results['RoundInfo']['round'] }}, {{ results['RoundInfo']['season'] }}.</p>
     </div>
         <table class="container table table-striped f1_links">
             <tr>
@@ -72,8 +72,6 @@
                     <td>{{ con['points'] }}</td>
                     <td>{{ con['wins']['number'] }}</td>
                     <td>{% if con['wins']['percentage'] > 0 %}{{ con['wins']['percentage'] }}%{% endif %}</td>
-
-
                 </tr>
             {% endfor %}
         </table>
