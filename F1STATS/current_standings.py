@@ -1,8 +1,6 @@
 import requests
 import json
 
-import pprint
-
 
 def current_driver_standings(round_no=None, season=None):
     """ Get the current Formula 1 Driver Standings.
@@ -32,17 +30,25 @@ def current_driver_standings(round_no=None, season=None):
             return []
 
         driver_list = []
-        for driver in data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']:
-            fn = driver['Driver']['givenName']
-            ln = driver['Driver']['familyName']
-            nation = driver['Driver']['nationality']
-            url = driver['Driver']['url']
-            cons = driver['Constructors'][0]['name']
-            points = driver['points']
-            pos = driver['position']
-            wins = driver['wins']
 
-            driver_info = {'fn': fn, 'ln': ln, 'url': url, 'points': points,
+        for i in range(len(data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'])):
+            fn = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][i]['Driver']['givenName']
+            ln = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][i]['Driver']['familyName']
+            nation = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][i]['Driver']['nationality']
+            url = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][i]['Driver']['url']
+            cons = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][i]['Constructors'][0]['name']
+            pos = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][i]['position']
+            wins = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][i]['wins']
+
+            points = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][i]['points']
+
+            if int(pos) > 1:  # Cannot refer to a driver above P1.
+                points_delta = int(points) - int(data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][i-1]['points'])
+                print(points_delta)
+            else:
+                points_delta = ''
+
+            driver_info = {'fn': fn, 'ln': ln, 'url': url, 'points': points, 'delta': points_delta,
                            'pos': pos, 'wins': wins, 'nationality': nation,
                            'cons': cons}
             driver_list.append(driver_info)

@@ -55,6 +55,7 @@
         {% else %}
             <h1 class="display-4">The {{ results['RoundInfo']['season'] }} Formula 1 Driver's Championship</h1>
             <p>Data taken from race {{ results['RoundInfo']['round'] }}, {{ results['RoundInfo']['season'] }}.</p>
+            <p>The right-hand side number indicates the point difference to the driver above in the standings.</p>
     </div>
         <table class="container table table-striped border f1_links">
             <tr>
@@ -63,6 +64,7 @@
                 <th>Surname</th>
                 <th>Constructor</th>
                 <th>Points</th>
+                <th></th>
             </tr>
             {% for driver in results['Driver'] %}
                 <tr>
@@ -71,6 +73,11 @@
                     <td><a href="{{ driver['url'] }}">{{ driver['ln'] }}</a></td>
                     <td>{{ driver['cons'] }}</td>
                     <td>{{ driver['points'] }}</td>
+                    {% if driver['delta'] != '' %}
+                        <td style="color: RED; font-size: 12px;">{{ driver['delta'] }} </td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>

@@ -10,7 +10,6 @@ app = Flask(__name__)
 
 
 @app.route('/')
-@app.route('/calender')
 def index():
     year = request.args.get('year')
     race_list = season.race_calendar(year)
@@ -58,5 +57,4 @@ def invalid_page(error):
 if __name__ == "__main__":
     app.run()
 
-# TODO: Add point deficit to the next driver (?) in the standings - consider branching for this, will be a lot of work.
 # TODO: Un-restrict the number of responses of the API - current limit to 30.
