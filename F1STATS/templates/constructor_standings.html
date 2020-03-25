@@ -54,6 +54,7 @@
         {% else %}
             <h1 class="display-4">The {{ results['RoundInfo']['season'] }} Formula 1 Constructor's Championship</h1>
             <p>Data taken from race {{ results['RoundInfo']['round'] }}, {{ results['RoundInfo']['season'] }}.</p>
+            <p>The number to the right of the points indicates the points difference to the constructor above in the standings.</p>
     </div>
         <table class="container table table-striped f1_links">
             <tr>
@@ -61,6 +62,7 @@
                 <th>Constructor</th>
                 <th>Nationality</th>
                 <th>Points</th>
+                <th></th>
                 <th>Wins</th>
                 <th>Win %</th>
             </tr>
@@ -70,6 +72,11 @@
                     <td><a href="{{ con['url'] }}">{{ con['name'] }}</a></td>
                     <td>{{ con['nationality'] }}</td>
                     <td>{{ con['points'] }}</td>
+                    {% if con['delta'] != '' %}
+                        <td style="color: RED; font-size: 12px;">{{ con['delta'] }}</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
                     <td>{{ con['wins']['number'] }}</td>
                     <td>{% if con['wins']['percentage'] > 0 %}{{ con['wins']['percentage'] }}%{% endif %}</td>
                 </tr>

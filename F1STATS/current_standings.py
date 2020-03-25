@@ -39,12 +39,10 @@ def current_driver_standings(round_no=None, season=None):
             cons = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][i]['Constructors'][0]['name']
             pos = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][i]['position']
             wins = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][i]['wins']
-
             points = data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][i]['points']
 
             if int(pos) > 1:  # Cannot refer to a driver above P1.
                 points_delta = int(points) - int(data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings'][i-1]['points'])
-                print(points_delta)
             else:
                 points_delta = ''
 
@@ -97,17 +95,23 @@ def current_constructor_standings(round_no=None, season=None):
         cons_dict['RoundInfo'] = {'round': round_n, 'season': season}
 
         cons_list = []
-        for con in data['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings']:
-            name = con['Constructor']['name']
-            nation = con['Constructor']['nationality']
-            url = con['Constructor']['url']
-            points = con['points']
-            pos = con['position']
-            wins = con['wins']
-            win_percent = round((int(wins) / int(round_n)) * 100, 1)
 
-            con_info = {'name': name, 'nationality': nation, 'url': url,
-                        'points': points, 'pos': pos, 'wins': {'number': wins, 'percentage': win_percent}}
+        for i in range(len(data['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings'])):
+            name = data['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings'][i]['Constructor']['name']
+            nation = data['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings'][i]['Constructor']['nationality']
+            url = data['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings'][i]['Constructor']['url']
+            pos = data['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings'][i]['position']
+            wins = data['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings'][i]['wins']
+            win_percent = round((int(wins) / int(round_n)) * 100, 1)
+            points = data['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings'][i]['points']
+
+            if int(pos) > 1:
+                points_delta = int(points) - int(data['MRData']['StandingsTable']['StandingsLists'][0]['ConstructorStandings'][i-1]['points'])
+            else:
+                points_delta = ''
+
+            con_info = {'name': name, 'nationality': nation, 'url': url, 'points': points, 'delta': points_delta,
+                        'pos': pos, 'wins': {'number': wins, 'percentage': win_percent}}
             cons_list.append(con_info)
 
         cons_dict['Constructor'] = cons_list
