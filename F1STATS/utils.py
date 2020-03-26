@@ -8,8 +8,11 @@ def date_format(d):
     :param d: String Date - I.E. 2019-12-31
     :return: String Date - I.E. Tuesday 31 December, 2019
     """
-    dt = datetime.datetime.strptime(d, '%Y-%m-%d')
-    return dt.strftime('%A %d %B, %Y')
+    try:
+        dt = datetime.datetime.strptime(d, '%Y-%m-%d')
+        return dt.strftime('%A %d %B, %Y')
+    except ValueError:
+        return None
 
 
 def return_datetime(d):
@@ -18,7 +21,10 @@ def return_datetime(d):
     :param d: String Date - I.E 2019-12-31
     :return: Datetime Date in the same format.
     """
-    return datetime.datetime.strptime(d, '%Y-%m-%d')
+    try:
+        return datetime.datetime.strptime(d, '%Y-%m-%d')
+    except ValueError:
+        return None
 
 
 def current_date():

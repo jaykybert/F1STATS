@@ -56,5 +56,3 @@ def invalid_page(error):
 
 if __name__ == "__main__":
     app.run()
-
-# TODO: Un-restrict the number of responses of the API - current limit to 30.
